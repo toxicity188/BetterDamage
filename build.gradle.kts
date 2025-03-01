@@ -167,4 +167,15 @@ bukkitPluginYaml {
         "net.kyori:adventure-text-serializer-gson:4.19.0",
         "com.zaxxer:HikariCP:6.2.1"
     )
+    permissions.create("betterdamage") {
+        description = "Access to BetterDamage's command"
+        children = mapOf(
+            "betterdamage.reload" to true,
+            "betterdamage.test" to true,
+            "betterdamage.info" to true,
+            "betterdamage.select" to true,
+            "betterdamage.add" to true,
+            "betterdamage.remove" to true,
+        )
+    }
 }

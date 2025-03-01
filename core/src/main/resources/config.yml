@@ -5,4 +5,5 @@ pack-path: "BetterDamage/build"
 pack-type: zip #folder, zip
 create-mcmeta: false
 auto-save-time: 300
-default-effect: "default_effect" #Default effect
+default-effect: "null" #Default effect
+default-skin: "default_skin"

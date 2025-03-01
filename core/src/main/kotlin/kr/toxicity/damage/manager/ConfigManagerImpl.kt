@@ -1,14 +1,17 @@
 package kr.toxicity.damage.manager
 
 import kr.toxicity.damage.api.BetterDamage
+import kr.toxicity.damage.api.effect.DamageEffect
 import kr.toxicity.damage.api.manager.ConfigManager
 import kr.toxicity.damage.api.pack.PackAssets
 import kr.toxicity.damage.api.pack.PackPath
 import kr.toxicity.damage.api.pack.PackSupplier
+import kr.toxicity.damage.api.skin.DamageSkin
 import kr.toxicity.damage.config.PluginConfig
 import kr.toxicity.damage.util.PLUGIN
 import kr.toxicity.damage.util.getFilePath
 import kr.toxicity.damage.util.jsonObjectOf
+import kr.toxicity.damage.util.memoizeNullable
 import kr.toxicity.damage.util.toFilePath
 import org.bstats.bukkit.Metrics
 
@@ -21,7 +24,12 @@ object ConfigManagerImpl : ConfigManager {
     private var packType = "zip"
     private var createMcmeta = false
     private var autoSaveTime = 300L * 20
-    private var defaultEffect = "default_effect"
+    private var effectSupplier: () -> DamageEffect? = {
+        null
+    }
+    private var skinSupplier: () -> DamageSkin? = {
+        null
+    }
 
     override fun reload(assets: PackAssets) {
         PluginConfig.CONFIG.load().run {
@@ -37,7 +45,16 @@ object ConfigManagerImpl : ConfigManager {
             packType = getString("pack-type") ?: "zip"
             createMcmeta = getBoolean("create-mcmeta")
             autoSaveTime = getLong("auto-save-time", 300) * 20
-            defaultEffect = getString("default-effect") ?: "default_effect"
+            effectSupplier = (getString("default-effect") ?: "default_effect").let {
+                {
+                    EffectManagerImpl.effect(it)
+                }.memoizeNullable()
+            }
+            skinSupplier = (getString("default-skin") ?: "default_skin").let {
+                {
+                    DamageSkinManagerImpl.skin(it)
+                }.memoizeNullable()
+            }
         }
         assets.add(PackPath("pack.mcmeta"), PackSupplier.of(jsonObjectOf(
             "pack" to jsonObjectOf(
@@ -53,6 +70,7 @@ object ConfigManagerImpl : ConfigManager {
     override fun packType(): String = packType
     override fun createMcmeta(): Boolean = createMcmeta
     override fun autoSaveTime(): Long = autoSaveTime
-    override fun defaultEffect(): String = defaultEffect
     override fun metrics(): Boolean = metrics != null
+    override fun defaultEffect(): DamageEffect? = effectSupplier()
+    override fun defaultSkin(): DamageSkin? = skinSupplier()
 }

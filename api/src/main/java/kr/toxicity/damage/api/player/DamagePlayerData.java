@@ -28,7 +28,8 @@ public interface DamagePlayerData {
     default @Nullable DamageEffect effect(@NotNull DamageTriggerType type) {
         var inst = BetterDamage.inst();
         var selected = selectedSkin();
-        if (selected == null) return inst.effectManager().effect(inst.configManager().defaultEffect());
+        if (selected == null) selected = inst.configManager().defaultSkin();
+        if (selected == null) return inst.configManager().defaultEffect();
         else return selected.find(type);
     }
 }
