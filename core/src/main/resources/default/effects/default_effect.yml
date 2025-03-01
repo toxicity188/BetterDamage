@@ -1,0 +1,38 @@
+# Default effect
+
+default_effect:
+    image: default_image #default_image.yml
+    duration: 20
+    interval: 2 #Interpolation duration
+    color: "#FFD800" #Color override
+    transformation: #Transformation
+        position:
+            x: 0 #X-axis (left-right)
+            y: 1.5sin(t / 40 * pi) #Y-axis (up-down)
+            z: 0 #Z-axis (forward-backward)
+        rotation:
+            x: 60(r - 0.5)
+            z: 0
+            y: 60(r - 0.5)
+        scale: #1 to 0
+            x: cos(t / 40 * pi)
+            y: cos(t / 40 * pi)
+            z: cos(t / 40 * pi)
+default_effect_crit:
+    image: default_image
+    duration: 20
+    interval: 2
+    color: aqua
+    transformation:
+        position:
+            x: 0
+            y: 1.5sin(t / 40 * pi)
+            z: 0
+        rotation:
+            x: 60(r - 0.5)
+            z: 0
+            y: 60(r - 0.5)
+        scale: #1.5 to 0
+            x: 1.5cos(t / 40 * pi)
+            y: 1.5cos(t / 40 * pi)
+            z: 1.5cos(t / 40 * pi)

@@ -1,0 +1,8 @@
+debug: false #debug
+metrics: true #https://bstats.org/plugin/bukkit/BetterDamage/24961
+namespace: "betterdamage" #Resource pack namespace
+pack-path: "BetterDamage/build"
+pack-type: zip #folder, zip
+create-mcmeta: false
+auto-save-time: 300
+default-effect: "default_effect" #Default effect

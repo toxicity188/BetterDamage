@@ -1,0 +1,3 @@
+default_image:
+  file: "default.png"
+  space: -2

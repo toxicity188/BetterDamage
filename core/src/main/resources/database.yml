@@ -1,0 +1,6 @@
+type: yml #yml, mysql
+data:
+  host: localhost
+  database: betterdamage
+  name: root
+  password: write your password here

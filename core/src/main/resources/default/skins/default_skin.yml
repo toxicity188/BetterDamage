@@ -1,0 +1,14 @@
+# default skin
+# bukkit_damage: default bukkit damage trigger
+
+default_skin:
+  skins:
+    bukkit_damage: default_effect
+
+# MythicLib default skin
+# mythiclib_damage: not-critical mythiclib damage trigger
+
+#mythiclib_skin:
+#  skins:
+#    mythiclib_damage: default_effect
+#    mythiclib_crit_damage: default_effect_crit

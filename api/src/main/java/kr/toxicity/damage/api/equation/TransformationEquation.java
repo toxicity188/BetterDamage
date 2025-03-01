@@ -1,0 +1,57 @@
+package kr.toxicity.damage.api.equation;
+
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.util.Transformation;
+import org.jetbrains.annotations.NotNull;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
+import static java.util.Optional.ofNullable;
+
+public record TransformationEquation(
+        @NotNull VectorEquation position,
+        @NotNull QuaternionEquation rotation,
+        @NotNull VectorEquation scale
+) implements Equation<Transformation> {
+
+    public static final TransformationEquation DEFAULT = new TransformationEquation(
+            VectorEquation.ZERO,
+            QuaternionEquation.ZERO,
+            VectorEquation.ONE
+    );
+
+    public TransformationEquation(@NotNull ConfigurationSection section) {
+        this(
+                ofNullable(section.getConfigurationSection("position")).map(VectorEquation::new).orElse(VectorEquation.ZERO),
+                ofNullable(section.getConfigurationSection("rotation")).map(QuaternionEquation::new).orElse(QuaternionEquation.ZERO),
+                ofNullable(section.getConfigurationSection("scale")).map(VectorEquation::new).orElse(VectorEquation.ONE)
+        );
+    }
+
+
+    @Override
+    public @NotNull Reader<Transformation> reader(int interval) {
+        return new TReader(interval);
+    }
+
+    private class TReader implements Reader<Transformation> {
+        private final Reader<Vector3f> pe, se;
+        private final Reader<Quaternionf> re;
+
+        private TReader(int interval) {
+            pe = position.reader(interval);
+            re = rotation.reader(interval);
+            se = scale.reader(interval);
+        }
+
+        @Override
+        public @NotNull Transformation next() {
+            return new Transformation(
+                    pe.next(),
+                    re.next(),
+                    se.next(),
+                    new Quaternionf()
+            );
+        }
+    }
+}
