@@ -56,7 +56,7 @@ object ConfigManagerImpl : ConfigManager {
                 }.memoizeNullable()
             }
         }
-        assets.add(PackPath("pack.mcmeta"), PackSupplier.of(jsonObjectOf(
+        if (createMcmeta()) assets.add(PackPath("pack.mcmeta"), PackSupplier.of(jsonObjectOf(
             "pack" to jsonObjectOf(
                 "pack_format" to PLUGIN.nms().version().metaVersion,
                 "description" to "BetterDamage's resource pack."

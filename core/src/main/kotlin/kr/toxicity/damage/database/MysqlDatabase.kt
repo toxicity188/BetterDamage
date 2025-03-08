@@ -56,7 +56,7 @@ class MysqlDatabase : DamagePlayerDatabase {
         }
 
         private fun <T> transaction(connection: Connection.() -> T) = pool.connection.use {
-            connection(it)
+            it.connection()
         }
         private fun Iterable<*>.toPlaceholder(amount: Int = 1) = joinToString(",") { "(" + (0..<amount).joinToString(",") { "?" } + ")" }
 

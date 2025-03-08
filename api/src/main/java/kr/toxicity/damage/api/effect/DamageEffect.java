@@ -9,7 +9,6 @@ import kr.toxicity.damage.api.scheduler.DamageScheduler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Display;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Transformation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,7 +51,7 @@ public interface DamageEffect {
                 0,
                 Optional.ofNullable(BetterDamage.inst().modelAdapter())
                         .map(a -> a.height(data.entity()))
-                        .orElse(data.entity() instanceof LivingEntity livingEntity ? livingEntity.getHeight() : 0.0),
+                        .orElse(data.entity().getHeight()),
                 0
         );
         var display = BetterDamage.inst().nms().create(data.player(), initialLocation);
