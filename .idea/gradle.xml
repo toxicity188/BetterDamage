@@ -15,7 +15,6 @@
             <option value="$PROJECT_DIR$/modelengine/current" />
             <option value="$PROJECT_DIR$/modelengine/legacy" />
             <option value="$PROJECT_DIR$/nms" />
-            <option value="$PROJECT_DIR$/nms/v1_19_R3" />
             <option value="$PROJECT_DIR$/nms/v1_20_R1" />
             <option value="$PROJECT_DIR$/nms/v1_20_R2" />
             <option value="$PROJECT_DIR$/nms/v1_20_R3" />
@@ -23,8 +22,10 @@
             <option value="$PROJECT_DIR$/nms/v1_21_R1" />
             <option value="$PROJECT_DIR$/nms/v1_21_R2" />
             <option value="$PROJECT_DIR$/nms/v1_21_R3" />
+            <option value="$PROJECT_DIR$/nms/v1_21_R4" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="true" />
       </GradleProjectSettings>
     </option>
   </component>

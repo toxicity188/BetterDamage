@@ -17,8 +17,6 @@ import kr.toxicity.damage.api.manager.PlayerManager
 import kr.toxicity.damage.api.manager.TriggerManager
 import kr.toxicity.damage.api.nms.NMS
 import kr.toxicity.damage.api.pack.PackAssets
-import kr.toxicity.damage.api.pack.PackPath
-import kr.toxicity.damage.api.pack.PackSupplier
 import kr.toxicity.damage.api.scheduler.DamageScheduler
 import kr.toxicity.damage.api.util.MinecraftVersion
 import kr.toxicity.damage.compatibility.modelengine.CurrentModelEngineAdapter
@@ -84,6 +82,7 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
     override fun onEnable() {
         val manager = Bukkit.getPluginManager()
         nms = when (version) {
+            MinecraftVersion.V1_21_5 -> kr.toxicity.damage.nms.v1_21_R4.NMSImpl()
             MinecraftVersion.V1_21_4 -> kr.toxicity.damage.nms.v1_21_R3.NMSImpl()
             MinecraftVersion.V1_21_2, MinecraftVersion.V1_21_3 -> kr.toxicity.damage.nms.v1_21_R2.NMSImpl()
             MinecraftVersion.V1_21, MinecraftVersion.V1_21_1 -> kr.toxicity.damage.nms.v1_21_R1.NMSImpl()
@@ -91,7 +90,7 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
             MinecraftVersion.V1_20_3, MinecraftVersion.V1_20_4 -> kr.toxicity.damage.nms.v1_20_R3.NMSImpl()
             MinecraftVersion.V1_20_2 -> kr.toxicity.damage.nms.v1_20_R2.NMSImpl()
             MinecraftVersion.V1_20, MinecraftVersion.V1_20_1 -> kr.toxicity.damage.nms.v1_20_R1.NMSImpl()
-            MinecraftVersion.V1_19_4 -> kr.toxicity.damage.nms.v1_19_R3.NMSImpl()
+            //MinecraftVersion.V1_19_4 -> kr.toxicity.damage.nms.v1_19_R3.NMSImpl()
             else -> {
                 warn(
                     "Unsupported version: $version",
