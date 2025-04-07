@@ -8,7 +8,7 @@ import kr.toxicity.damage.api.nms.NMSVersion
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import net.minecraft.network.protocol.game.*
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerGamePacketListenerImpl
 import net.minecraft.util.Brightness
 import net.minecraft.world.entity.Display
 import net.minecraft.world.entity.EntityType
@@ -19,15 +19,19 @@ import org.bukkit.craftbukkit.v1_20_R2.util.CraftChatMessage
 import org.bukkit.entity.Display.Billboard.*
 import org.bukkit.entity.Player
 import org.bukkit.util.Transformation
+import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 
 class NMSImpl : NMS {
     override fun version(): NMSVersion = NMSVersion.V1_20_R2
-    override fun create(player: Player, location: Location): DamageDisplay = DamageDisplayImpl((player as CraftPlayer).handle, location)
+    override fun create(location: Location): DamageDisplay = DamageDisplayImpl(location)
 
     private class DamageDisplayImpl(
-        player: ServerPlayer,
         location: Location
     ) : DamageDisplay {
+
+        private val connectionMap = ConcurrentHashMap<UUID, ServerGamePacketListenerImpl>()
+
         private val display: Display = Display.TextDisplay(EntityType.TEXT_DISPLAY, (location.world as CraftWorld).handle).apply { //Remap bug :(
             entityData.set(Display.TextDisplay.DATA_LINE_WIDTH_ID, Int.MAX_VALUE)
             entityData.set(Display.TextDisplay.DATA_BACKGROUND_COLOR_ID, 0)
@@ -39,20 +43,25 @@ class NMSImpl : NMS {
                 0F
             )
         }
-        private val connection = player.connection.apply {
-            send(ClientboundAddEntityPacket(
-                display.id,
-                display.uuid,
-                display.x,
-                display.y,
-                display.z,
-                display.xRot,
-                display.yRot,
-                display.type,
-                0,
-                display.deltaMovement,
-                display.yHeadRot.toDouble()
-            ))
+        
+        override fun spawn(player: Player) {
+            connectionMap.computeIfAbsent(player.uniqueId) {
+                (player as CraftPlayer).handle.connection.apply {
+                    send(ClientboundAddEntityPacket(
+                        display.id,
+                        display.uuid,
+                        display.x,
+                        display.y,
+                        display.z,
+                        display.xRot,
+                        display.yRot,
+                        display.type,
+                        0,
+                        display.deltaMovement,
+                        display.yHeadRot.toDouble()
+                    ))
+                }
+            }
         }
 
         override fun teleport(location: Location) {
@@ -83,10 +92,13 @@ class NMSImpl : NMS {
         }
 
         override fun update() {
-            connection.send(ClientboundBundlePacket(listOf(
+            val packet = ClientboundBundlePacket(listOf(
                 ClientboundSetEntityDataPacket(display.id, display.entityData.nonDefaultValues ?: emptyList()),
                 ClientboundTeleportEntityPacket(display)
-            )))
+            ))
+            connectionMap.values.forEach {
+                it.send(packet)
+            }
         }
 
         override fun frame(frame: Int) {
@@ -99,7 +111,11 @@ class NMSImpl : NMS {
         }
 
         override fun remove() {
-            connection.send(ClientboundRemoveEntitiesPacket(display.id))
+            val packet = ClientboundRemoveEntitiesPacket(display.id)
+            connectionMap.values.removeIf {
+                it.send(packet)
+                true
+            }
         }
 
         override fun billboard(billboard: org.bukkit.entity.Display.Billboard) {

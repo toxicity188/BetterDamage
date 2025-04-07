@@ -9,9 +9,12 @@ import java.util.function.Consumer;
  */
 public interface DamageScheduler {
 
+    ScheduledTask EMPTY = () -> {};
+
     @NotNull ScheduledTask async(@NotNull Consumer<ScheduledTask> task);
     @NotNull ScheduledTask async(long delay, long period, @NotNull Consumer<ScheduledTask> task);
 
+    @FunctionalInterface
     interface ScheduledTask {
         void cancel();
     }

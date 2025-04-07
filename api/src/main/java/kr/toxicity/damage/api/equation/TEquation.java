@@ -41,7 +41,7 @@ public final class TEquation implements Equation<Float> {
 
     public TEquation(@NotNull String equation) {
         expression = new ExpressionBuilder(equation)
-                .variables("t", "r", "pi", "e")
+                .variables("t", "c", "r", "pi", "e")
                 .functions(
                         MIN,
                         MAX,
@@ -63,13 +63,13 @@ public final class TEquation implements Equation<Float> {
 
 
     @Override
-    public Equation.@NotNull Reader<Float> reader(int interval) {
-        return new TReader(interval);
+    public Equation.@NotNull Reader<Float> reader(@NotNull EquationData data) {
+        return new TReader(data);
     }
 
     @RequiredArgsConstructor
     private class TReader implements Equation.Reader<Float>  {
-        private final int interval;
+        private final @NotNull EquationData data;
 
         private double t;
         private final Expression copied = new Expression(expression)
@@ -82,8 +82,10 @@ public final class TEquation implements Equation<Float> {
 
         @Override
         public @NotNull Float next() {
-            var next = copied.setVariable("t", t).evaluate();
-            t += interval;
+            var next = copied.setVariable("t", t)
+                    .setVariable("c", data.count())
+                    .evaluate();
+            t += data.interval();
             return (float) next;
         }
     }

@@ -1,7 +1,6 @@
 package kr.toxicity.damage.api.nms;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -9,5 +8,5 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface NMS {
     @NotNull NMSVersion version();
-    @NotNull DamageDisplay create(@NotNull Player player, @NotNull Location location);
+    @NotNull DamageDisplay create(@NotNull Location location);
 }

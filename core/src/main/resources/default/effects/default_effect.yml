@@ -22,6 +22,7 @@ default_effect_crit:
     image: default_image
     duration: 20
     interval: 2
+    show-player-in-radius: 5
     color: aqua
     transformation:
         position:

@@ -16,12 +16,12 @@ object CompatibilityManagerImpl : CompatibilityManager {
 
     override fun start() {
         Bukkit.getPluginManager().run {
-            hookMap.forEach { (name, hooker) ->
+            info(*hookMap.mapNotNull { (name, hooker) ->
                 if (isPluginEnabled(name)) {
                     hooker().start()
-                    info("Hooks $name.")
-                }
-            }
+                    "Plugin hooks $name."
+                } else null
+            }.toTypedArray())
         }
     }
 

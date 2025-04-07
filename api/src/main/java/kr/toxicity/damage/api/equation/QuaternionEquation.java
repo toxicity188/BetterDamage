@@ -24,15 +24,15 @@ public record QuaternionEquation(
     }
 
     @Override
-    public @NotNull Reader<Quaternionf> reader(int interval) {
-        return new QReader(interval);
+    public @NotNull Reader<Quaternionf> reader(@NotNull EquationData data) {
+        return new QReader(data);
     }
 
     private class QReader implements Reader<Quaternionf> {
         private final Reader<Vector3f> ve;
 
-        private QReader(int interval) {
-            ve = eulerAngle.reader(interval);
+        private QReader(@NotNull EquationData data) {
+            ve = eulerAngle.reader(data);
         }
 
         @Override

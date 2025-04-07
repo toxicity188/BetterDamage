@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Equation<T> {
 
-    @NotNull Reader<T> reader(int interval);
+    @NotNull Reader<T> reader(@NotNull EquationData data);
 
     interface Reader<T> {
         @NotNull T next();

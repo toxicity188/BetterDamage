@@ -32,18 +32,18 @@ public record VectorEquation(
     }
 
     @Override
-    public @NotNull Reader<Vector3f> reader(int interval) {
-        return new VReader(interval);
+    public @NotNull Reader<Vector3f> reader(@NotNull EquationData data) {
+        return new VReader(data);
     }
 
     private class VReader implements Reader<Vector3f> {
 
         private final Reader<Float> xe, ye, ze;
 
-        private VReader(int interval) {
-            xe = x.reader(interval);
-            ye = y.reader(interval);
-            ze = z.reader(interval);
+        private VReader(@NotNull EquationData data) {
+            xe = x.reader(data);
+            ye = y.reader(data);
+            ze = z.reader(data);
         }
 
         @Override

@@ -30,18 +30,18 @@ public record TransformationEquation(
 
 
     @Override
-    public @NotNull Reader<Transformation> reader(int interval) {
-        return new TReader(interval);
+    public @NotNull Reader<Transformation> reader(@NotNull EquationData data) {
+        return new TReader(data);
     }
 
     private class TReader implements Reader<Transformation> {
         private final Reader<Vector3f> pe, se;
         private final Reader<Quaternionf> re;
 
-        private TReader(int interval) {
-            pe = position.reader(interval);
-            re = rotation.reader(interval);
-            se = scale.reader(interval);
+        private TReader(@NotNull EquationData data) {
+            pe = position.reader(data);
+            re = rotation.reader(data);
+            se = scale.reader(data);
         }
 
         @Override

@@ -3,6 +3,7 @@ package kr.toxicity.damage.manager
 import kr.toxicity.damage.api.BetterDamage
 import kr.toxicity.damage.api.effect.DamageEffect
 import kr.toxicity.damage.api.manager.ConfigManager
+import kr.toxicity.damage.api.nms.NMSVersion
 import kr.toxicity.damage.api.pack.PackAssets
 import kr.toxicity.damage.api.pack.PackPath
 import kr.toxicity.damage.api.pack.PackSupplier
@@ -56,12 +57,24 @@ object ConfigManagerImpl : ConfigManager {
                 }.memoizeNullable()
             }
         }
-        if (createMcmeta()) assets.add(PackPath("pack.mcmeta"), PackSupplier.of(jsonObjectOf(
-            "pack" to jsonObjectOf(
-                "pack_format" to PLUGIN.nms().version().metaVersion,
-                "description" to "BetterDamage's resource pack."
-            )
-        )))
+        if (createMcmeta()) {
+            assets.add(PackPath("pack.mcmeta"), PackSupplier.of(jsonObjectOf(
+                "pack" to jsonObjectOf(
+                    "pack_format" to PLUGIN.nms().version().metaVersion,
+                    "description" to "BetterDamage's resource pack.",
+                    "supported_formats" to jsonObjectOf(
+                        "min_inclusive" to NMSVersion.entries.first().metaVersion,
+                        "max_inclusive" to NMSVersion.entries.last().metaVersion
+                    )
+                )
+            )))
+            PLUGIN.getResource("icon.png")?.buffered()?.use {
+                val read = it.readAllBytes()
+                assets.add(PackPath("pack.png")) {
+                    read
+                }
+            }
+        }
     }
 
     override fun debug(): Boolean = debug

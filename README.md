@@ -12,8 +12,17 @@ Welcome to BetterDamage!
 
 </div>
 
-### A simple damage skin implementation.
+### Provides simple damage skin for Minecraft Bukkit.
 This plugin implements damage skin.
 - Auto resource pack build
 - Custom skin per user
 - Multi trigger support
+
+### Platform
+- Spigot, Paper and Folia or fork of them.
+
+### Version
+- 1.20.1-1.21.5
+
+### Build
+./gradlew build

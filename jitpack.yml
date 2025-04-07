@@ -1,0 +1,8 @@
+jdk:
+  - openjdk21
+
+skip-default-build: true
+
+build:
+  commands:
+    - ./gradlew :api:build

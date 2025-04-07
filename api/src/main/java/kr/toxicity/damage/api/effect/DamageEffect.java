@@ -2,21 +2,29 @@ package kr.toxicity.damage.api.effect;
 
 import kr.toxicity.damage.api.BetterDamage;
 import kr.toxicity.damage.api.data.DamageEffectData;
+import kr.toxicity.damage.api.equation.EquationData;
 import kr.toxicity.damage.api.equation.TEquation;
 import kr.toxicity.damage.api.equation.TransformationEquation;
+import kr.toxicity.damage.api.event.CreateDamageEffectEvent;
 import kr.toxicity.damage.api.image.DamageImage;
 import kr.toxicity.damage.api.scheduler.DamageScheduler;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Display;
+import org.bukkit.entity.Player;
 import org.bukkit.util.Transformation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import static java.lang.Math.*;
 
@@ -24,12 +32,23 @@ public interface DamageEffect {
     @NotNull DamageImage image();
     int duration();
     int interval();
+    double showPlayerInRadius();
     @Nullable TextColor color();
     @NotNull TEquation damageModifier();
     @NotNull TransformationEquation transformation();
     @NotNull Display.Billboard billboard();
     @NotNull TEquation blockLight();
     @NotNull TEquation skyLight();
+    @NotNull DamageEffectCounter counter();
+
+    default Stream<Player> playerInRadius(@NotNull Player player, @NotNull Location location) {
+        var r = showPlayerInRadius();
+        return r <= 0.0 ? Stream.of(player) : location.getWorld().getNearbyEntities(location, r, r, r)
+                .stream()
+                .map(e -> e instanceof Player other ? other : null)
+                .filter(Objects::nonNull)
+                .filter(OfflinePlayer::isOnline);
+    }
 
     default @NotNull String toString(double damage) {
         var sb = new StringBuilder();
@@ -45,8 +64,13 @@ public interface DamageEffect {
     }
 
     default @NotNull DamageScheduler.ScheduledTask play(@NotNull DamageEffectData data) {
+        var event = new CreateDamageEffectEvent(this, data);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return DamageScheduler.EMPTY;
         var index = new AtomicInteger();
-        var equation = transformation().reader(interval());
+        var count = counter().countOf(data.entity().getUniqueId());
+        var equationData = new EquationData(interval(), count);
+        var equation = transformation().reader(equationData);
         var initialLocation = data.entity().getLocation().add(
                 0,
                 Optional.ofNullable(BetterDamage.inst().modelAdapter())
@@ -54,7 +78,7 @@ public interface DamageEffect {
                         .orElse(data.entity().getHeight()),
                 0
         );
-        var display = BetterDamage.inst().nms().create(data.player(), initialLocation);
+        var display = BetterDamage.inst().nms().create(initialLocation);
         display.frame(interval() + 1);
         display.billboard(billboard());
         display.text(
@@ -64,9 +88,10 @@ public interface DamageEffect {
                         .font(image().key())
                         .build()
         );
+        playerInRadius(data.player(), initialLocation).forEach(display::spawn);
         var limit = duration() / interval();
-        var blockLight = blockLight().reader(interval());
-        var skyLight = skyLight().reader(interval());
+        var blockLight = blockLight().reader(equationData);
+        var skyLight = skyLight().reader(equationData);
         return BetterDamage.inst().scheduler().async(0, interval(), task -> {
             var get = index.getAndIncrement();
             if (get < limit) {
@@ -90,6 +115,7 @@ public interface DamageEffect {
                 display.update();
             } else {
                 display.remove();
+                counter().remove(data.entity().getUniqueId());
                 task.cancel();
             }
         });

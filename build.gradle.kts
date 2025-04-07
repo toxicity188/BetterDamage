@@ -35,7 +35,7 @@ allprojects {
 
         compileOnly("com.zaxxer:HikariCP:6.2.1")
 
-        compileOnly("io.github.toxicity188:BetterModel:1.4.2")
+        compileOnly("io.github.toxicity188:BetterModel:1.4.3")
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
@@ -111,8 +111,8 @@ tasks {
         pluginJars(fileTree("plugins"))
         version(minecraft)
         downloadPlugins {
-            hangar("ViaVersion", "5.2.1")
-            hangar("ViaBackwards", "5.2.1")
+            hangar("ViaVersion", "5.3.1")
+            hangar("ViaBackwards", "5.3.1")
         }
     }
     jar {
@@ -155,7 +155,7 @@ bukkitPluginYaml {
     foliaSupported = true
     apiVersion = "1.19"
     author = "toxicity"
-    description = "A simple damage skin implementation."
+    description = "Provides simple damage skin for Minecraft Bukkit."
     softDepend = listOf(
         "BetterModel",
         "MMOCore",

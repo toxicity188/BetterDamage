@@ -1,6 +1,7 @@
 package kr.toxicity.damage.effect
 
 import kr.toxicity.damage.api.effect.DamageEffect
+import kr.toxicity.damage.api.effect.DamageEffectCounter
 import kr.toxicity.damage.api.equation.TEquation
 import kr.toxicity.damage.api.equation.TransformationEquation
 import kr.toxicity.damage.api.image.DamageImage
@@ -19,6 +20,7 @@ class DamageEffectImpl(section: ConfigurationSection) : DamageEffect {
     }
     private val duration = section.getInt("duration", 20).coerceAtLeast(1)
     private val interval = section.getInt("interval", 1).coerceAtLeast(1)
+    private val showPlayerInRadius = section.getDouble("show-player-in-radius", 0.0).coerceAtLeast(0.0)
     private val color = section.getString("color")?.toTextColor()
     private val transform = TransformationEquation(section.getConfigurationSection("transformation").ifNull { "The value 'transformation' doesn't exist." })
     private val billboard = section.getString("billboard")?.let {
@@ -31,14 +33,17 @@ class DamageEffectImpl(section: ConfigurationSection) : DamageEffect {
     private val damageModifier = section.getAsEquation("damage-modifier") ?: TEquation.T
     private val blockLight = section.getAsEquation("block-light") ?: TEquation.FULL_LIGHT
     private val skyLight = section.getAsEquation("sky-light") ?: TEquation.FULL_LIGHT
+    private val counter = DamageEffectCounter()
 
     override fun image(): DamageImage = image
     override fun duration(): Int = duration
     override fun interval(): Int = interval
+    override fun showPlayerInRadius(): Double = showPlayerInRadius
     override fun color(): TextColor? = color
     override fun transformation(): TransformationEquation = transform
     override fun billboard(): Display.Billboard = billboard
     override fun damageModifier(): TEquation = damageModifier
     override fun blockLight(): TEquation = blockLight
     override fun skyLight(): TEquation = skyLight
+    override fun counter(): DamageEffectCounter = counter
 }
