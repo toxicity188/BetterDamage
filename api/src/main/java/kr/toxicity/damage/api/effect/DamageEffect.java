@@ -8,6 +8,7 @@ import kr.toxicity.damage.api.equation.TransformationEquation;
 import kr.toxicity.damage.api.event.CreateDamageEffectEvent;
 import kr.toxicity.damage.api.image.DamageImage;
 import kr.toxicity.damage.api.scheduler.DamageScheduler;
+import kr.toxicity.damage.api.util.BitUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
@@ -39,6 +40,7 @@ public interface DamageEffect {
     @NotNull Display.Billboard billboard();
     @NotNull TEquation blockLight();
     @NotNull TEquation skyLight();
+    @NotNull TEquation opacity();
     @NotNull DamageEffectCounter counter();
 
     default Stream<Player> playerInRadius(@NotNull Player player, @NotNull Location location) {
@@ -92,6 +94,7 @@ public interface DamageEffect {
         var limit = duration() / interval();
         var blockLight = blockLight().reader(equationData);
         var skyLight = skyLight().reader(equationData);
+        var opacity = opacity().reader(equationData);
         return BetterDamage.inst().scheduler().async(0, interval(), task -> {
             var get = index.getAndIncrement();
             if (get < limit) {
@@ -111,6 +114,7 @@ public interface DamageEffect {
                         round(clamp(skyLight.next(), 0F, 15F))
                 ));
                 display.teleport(teleport);
+                display.opacity(BitUtil.opacityToByte(opacity.next()));
                 display.transformation(new Transformation(new Vector3f(), new Quaternionf(), next.getScale(), new Quaternionf()));
                 display.update();
             } else {

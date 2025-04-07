@@ -33,6 +33,7 @@ class DamageEffectImpl(section: ConfigurationSection) : DamageEffect {
     private val damageModifier = section.getAsEquation("damage-modifier") ?: TEquation.T
     private val blockLight = section.getAsEquation("block-light") ?: TEquation.FULL_LIGHT
     private val skyLight = section.getAsEquation("sky-light") ?: TEquation.FULL_LIGHT
+    private val opacity = section.getAsEquation("opacity") ?: TEquation.FULL_OPACITY
     private val counter = DamageEffectCounter()
 
     override fun image(): DamageImage = image
@@ -46,4 +47,5 @@ class DamageEffectImpl(section: ConfigurationSection) : DamageEffect {
     override fun blockLight(): TEquation = blockLight
     override fun skyLight(): TEquation = skyLight
     override fun counter(): DamageEffectCounter = counter
+    override fun opacity(): TEquation = opacity
 }

@@ -10,6 +10,11 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
 }
 
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {

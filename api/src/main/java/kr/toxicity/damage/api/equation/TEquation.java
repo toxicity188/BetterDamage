@@ -36,6 +36,7 @@ public final class TEquation implements Equation<Float> {
     public static final TEquation ONE = new TEquation("1");
     public static final TEquation T = new TEquation("t");
     public static final TEquation FULL_LIGHT = new TEquation("15");
+    public static final TEquation FULL_OPACITY = new TEquation("255");
 
     private final Expression expression;
 

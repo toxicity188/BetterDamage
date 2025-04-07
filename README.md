@@ -26,3 +26,15 @@ This plugin implements damage skin.
 
 ### Build
 ./gradlew build
+
+### API
+[![](https://jitpack.io/v/toxicity188/BetterDamage.svg)](https://jitpack.io/#toxicity188/BetterDamage)
+```kotlin
+repositories {
+    maven("https://jitpack.io")
+}
+
+dependencies { 
+    implementation("com.github.toxicity188:BetterDamage:Tag")
+}
+```
