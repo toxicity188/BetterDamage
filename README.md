@@ -4,7 +4,7 @@
 
 Welcome to BetterDamage!
 
-[GitHub](https://github.com/toxicity188/BetterDamage) | [Wiki](https://github.com/toxicity188/BetterDamage/wiki)  
+[SpigotMC](https://www.spigotmc.org/resources/123850/) | [GitHub](https://github.com/toxicity188/BetterDamage) | [Wiki](https://github.com/toxicity188/BetterDamage/wiki)  
 
 [![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/invite/rePyFESDbk)
 [![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/toxicity188/BetterDamage?style=for-the-badge&logo=github)](https://github.com/toxicity188/BetterDamage/issues)
@@ -19,6 +19,10 @@ This plugin implements damage skin.
 - Auto resource pack build
 - Custom skin per user
 - Multi trigger support
+
+### Supported Plugins
+- BetterModel, ModelEngine - detect model's height  
+- MythicLib - support damage event  
 
 ### Platform
 - Spigot, Paper and Folia or fork of them.
