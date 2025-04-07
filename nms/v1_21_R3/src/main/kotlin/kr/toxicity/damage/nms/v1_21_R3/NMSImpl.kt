@@ -56,10 +56,6 @@ class NMSImpl : NMS {
             ))
         }
 
-        init {
-            display.transformationInterpolationDelay = -1
-        }
-
         override fun teleport(location: Location) {
             display.moveTo(
                 location.x,
