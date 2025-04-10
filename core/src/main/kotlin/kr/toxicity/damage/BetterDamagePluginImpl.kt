@@ -1,5 +1,6 @@
 package kr.toxicity.damage
 
+import com.vdurmont.semver4j.Semver
 import kr.toxicity.damage.api.BetterDamage
 import kr.toxicity.damage.api.BetterDamagePlugin
 import kr.toxicity.damage.api.ReloadState
@@ -8,6 +9,7 @@ import kr.toxicity.damage.api.manager.*
 import kr.toxicity.damage.api.nms.NMS
 import kr.toxicity.damage.api.pack.PackAssets
 import kr.toxicity.damage.api.scheduler.DamageScheduler
+import kr.toxicity.damage.api.util.HttpUtil
 import kr.toxicity.damage.api.util.MinecraftVersion
 import kr.toxicity.damage.compatibility.modelengine.CurrentModelEngineAdapter
 import kr.toxicity.damage.compatibility.modelengine.LegacyModelEngineAdapter
@@ -20,7 +22,12 @@ import kr.toxicity.damage.util.info
 import kr.toxicity.damage.util.warn
 import kr.toxicity.damage.version.ModelEngineVersion
 import kr.toxicity.model.api.tracker.EntityTracker
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.io.InputStream
@@ -33,6 +40,11 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
     private val version = MinecraftVersion(Bukkit.getBukkitVersion().substringBefore('-'))
     private val scheduler = if (BetterDamage.IS_PAPER) FoliaScheduler() else BukkitScheduler()
     private val onReload = AtomicBoolean()
+    @Suppress("DEPRECATION")
+    private val semver = Semver(description.version, Semver.SemverType.LOOSE)
+    private val audiences by lazy {
+        BukkitAudiences.create(this)
+    }
 
     private lateinit var nms: NMS
     private var modelAdapter: ModelAdapter? = null
@@ -60,6 +72,7 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
     }
 
     override fun onEnable() {
+        audiences()
         val manager = Bukkit.getPluginManager()
         nms = when (version) {
             MinecraftVersion.V1_21_5 -> kr.toxicity.damage.nms.v1_21_R4.NMSImpl()
@@ -107,9 +120,28 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
             is ReloadState.OnReload -> warn("Plugin load failed.")
             is ReloadState.Success -> info("Plugin has successfully loaded.")
         }
+        HttpUtil.latest().thenAccept {
+            if (semver < it) {
+                info(
+                    "Found a new version of BetterDamage: ${it.originalValue}",
+                    "Download: ${HttpUtil.VERSION}"
+                )
+                Bukkit.getPluginManager().registerEvents(object : Listener {
+                    @EventHandler
+                    fun PlayerJoinEvent.join() {
+                        if (player.isOp) audiences.player(player)
+                            .sendMessage(Component.text("Found a new version of BetterDamage: ").append(HttpUtil.versionComponent(it)))
+                    }
+                }, this)
+            }
+        }.exceptionally { e ->
+            e.handle("Unable to get latest version.")
+            null
+        }
     }
 
     override fun onDisable() {
+        audiences.close()
         managers.forEach(DamageManager::end)
         info("Plugin disabled.")
     }
@@ -119,6 +151,8 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
     }
 
     override fun version(): MinecraftVersion = version
+    override fun semver(): Semver = semver
+    override fun audiences(): BukkitAudiences = audiences
     override fun scheduler(): DamageScheduler = scheduler
     override fun modelAdapter(): ModelAdapter? = modelAdapter
 

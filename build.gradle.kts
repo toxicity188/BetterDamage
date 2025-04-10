@@ -11,13 +11,14 @@ plugins {
 
 val minecraft = "1.21.4"
 val targetJavaVersion = 21
+val adventure = "4.20.0"
 
 allprojects {
     apply(plugin = "java")
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.0"
+    version = "1.0.1"
 
     repositories {
         mavenCentral()
@@ -34,6 +35,8 @@ allprojects {
         implementation("org.bstats:bstats-bukkit:3.1.0")
 
         compileOnly("com.zaxxer:HikariCP:6.2.1")
+        compileOnly("com.vdurmont:semver4j:3.1.0")
+        compileOnly("net.kyori:adventure-platform-bukkit:4.3.4")
 
         compileOnly("io.github.toxicity188:BetterModel:1.4.3")
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
@@ -163,8 +166,10 @@ bukkitPluginYaml {
         "ModelEngine"
     )
     libraries = listOf(
-        "net.kyori:adventure-api:4.20.0",
-        "net.kyori:adventure-text-serializer-gson:4.20.0",
-        "com.zaxxer:HikariCP:6.2.1"
+        "net.kyori:adventure-api:$adventure",
+        "net.kyori:adventure-text-serializer-gson:$adventure",
+        "net.kyori:adventure-platform-bukkit:4.3.4",
+        "com.zaxxer:HikariCP:6.2.1",
+        "com.vdurmont:semver4j:3.1.0"
     )
 }

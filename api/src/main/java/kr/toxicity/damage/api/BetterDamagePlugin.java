@@ -1,10 +1,12 @@
 package kr.toxicity.damage.api;
 
+import com.vdurmont.semver4j.Semver;
 import kr.toxicity.damage.api.adapter.ModelAdapter;
 import kr.toxicity.damage.api.manager.*;
 import kr.toxicity.damage.api.nms.NMS;
 import kr.toxicity.damage.api.scheduler.DamageScheduler;
 import kr.toxicity.damage.api.util.MinecraftVersion;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +26,18 @@ public interface BetterDamagePlugin {
      * @return logger
      */
     @NotNull Logger getLogger();
+
+    /**
+     * Gets semver.
+     * @return semver
+     */
+    @NotNull Semver semver();
+
+    /**
+     * Gets audiences
+     * @return audiences
+     */
+    @NotNull BukkitAudiences audiences();
 
     /**
      * Handles exception
