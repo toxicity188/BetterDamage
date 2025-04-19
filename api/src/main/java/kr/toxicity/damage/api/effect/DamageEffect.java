@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+import java.text.NumberFormat;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -42,12 +43,14 @@ public interface DamageEffect {
     @NotNull TEquation skyLight();
     @NotNull TEquation opacity();
     @NotNull DamageEffectCounter counter();
+    @NotNull NumberFormat numberFormat();
 
-    default Stream<Player> playerInRadius(@NotNull Player player, @NotNull Location location) {
+    default @NotNull Stream<Player> playerInRadius(@NotNull Player player, @NotNull Location location) {
         var r = showPlayerInRadius();
-        return r <= 0.0 ? Stream.of(player) : location.getWorld().getNearbyEntities(location, r, r, r)
+        return r <= 0.0 ? Stream.empty() : location.getWorld().getNearbyEntities(location, r, r, r)
                 .stream()
                 .map(e -> e instanceof Player other ? other : null)
+                .filter(p -> p != player)
                 .filter(Objects::nonNull)
                 .filter(OfflinePlayer::isOnline);
     }
@@ -55,7 +58,7 @@ public interface DamageEffect {
     default @NotNull String toString(double damage) {
         var sb = new StringBuilder();
         var index = 0;
-        var array = Long.toString(round(damageModifier().evaluate(damage)))
+        var array = numberFormat().format(damageModifier().evaluate(damage))
                 .codePoints()
                 .toArray();
         for (int codepoint : array) {
@@ -90,6 +93,7 @@ public interface DamageEffect {
                         .font(image().key())
                         .build()
         );
+        display.spawn(data.player());
         playerInRadius(data.player(), initialLocation).forEach(display::spawn);
         var limit = duration() / interval();
         var blockLight = blockLight().reader(equationData);

@@ -12,6 +12,8 @@ import kr.toxicity.damage.util.toTextColor
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Display
+import java.text.DecimalFormat
+import java.text.NumberFormat
 
 class DamageEffectImpl(section: ConfigurationSection) : DamageEffect {
 
@@ -35,6 +37,9 @@ class DamageEffectImpl(section: ConfigurationSection) : DamageEffect {
     private val skyLight = section.getAsEquation("sky-light") ?: TEquation.FULL_LIGHT
     private val opacity = section.getAsEquation("opacity") ?: TEquation.FULL_OPACITY
     private val counter = DamageEffectCounter()
+    private val numberFormat = runCatching {
+        DecimalFormat(section.getString("number-format", "#"))
+    }.getOrNull() ?: DecimalFormat("#")
 
     override fun image(): DamageImage = image
     override fun duration(): Int = duration
@@ -48,4 +53,5 @@ class DamageEffectImpl(section: ConfigurationSection) : DamageEffect {
     override fun skyLight(): TEquation = skyLight
     override fun counter(): DamageEffectCounter = counter
     override fun opacity(): TEquation = opacity
+    override fun numberFormat(): NumberFormat = numberFormat
 }
