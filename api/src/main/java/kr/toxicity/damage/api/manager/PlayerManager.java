@@ -6,6 +6,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
+/**
+ * Player manager
+ */
 public interface PlayerManager extends DamageManager {
+    /**
+     * Gets a player instance of this player's uuid
+     * @param uuid uuid
+     * @return player or null
+     */
     @Nullable DamagePlayer player(@NotNull UUID uuid);
 }

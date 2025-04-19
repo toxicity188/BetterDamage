@@ -30,21 +30,94 @@ import java.util.stream.Stream;
 
 import static java.lang.Math.*;
 
+/**
+ * Damage effect
+ */
 public interface DamageEffect {
+    /**
+     * Gets image resource
+     * @return image
+     */
     @NotNull DamageImage image();
+
+    /**
+     * Gets running duration of this effect
+     * @return duration
+     */
     int duration();
+
+    /**
+     * Gets an interval of this effect
+     * @return interval
+     */
     int interval();
+
+    /**
+     * Gets a world radius of this effect to show third-party player.
+     * @return radius
+     */
     double showPlayerInRadius();
+
+    /**
+     * Gets a text color of this effect
+     * @return color
+     */
     @Nullable TextColor color();
+
+    /**
+     * Gets a damage modifier of this effect
+     * @return modifier
+     */
     @NotNull TEquation damageModifier();
+
+    /**
+     * Gets a transformation equation of this effect
+     * @return transformation equation
+     */
     @NotNull TransformationEquation transformation();
+
+    /**
+     * Gets a billboard of this effect
+     * @return billboard
+     */
     @NotNull Display.Billboard billboard();
+
+    /**
+     * Gets a block light-level of this effect
+     * @return block light-level
+     */
     @NotNull TEquation blockLight();
+
+    /**
+     * Gets a sky light-level of this effect
+     * @return sky light-level
+     */
     @NotNull TEquation skyLight();
+
+    /**
+     * Gets opacity of this effect
+     * @return opacity
+     */
     @NotNull TEquation opacity();
+
+    /**
+     * Gets a counter of this effect
+     * @return counter
+     */
     @NotNull DamageEffectCounter counter();
+
+    /**
+     * Gets a number format of this effect
+     * @return format
+     */
     @NotNull NumberFormat numberFormat();
 
+    /**
+     * Gets a nearby player of given location
+     * @param player caster
+     * @param location location
+     * @return nearby player
+     */
     default @NotNull Stream<Player> playerInRadius(@NotNull Player player, @NotNull Location location) {
         var r = showPlayerInRadius();
         return r <= 0.0 ? Stream.empty() : location.getWorld().getNearbyEntities(location, r, r, r)
@@ -55,6 +128,11 @@ public interface DamageEffect {
                 .filter(OfflinePlayer::isOnline);
     }
 
+    /**
+     * Parses this damage to string
+     * @param damage damage
+     * @return string value
+     */
     default @NotNull String toString(double damage) {
         var sb = new StringBuilder();
         var index = 0;
@@ -68,6 +146,11 @@ public interface DamageEffect {
         return sb.toString();
     }
 
+    /**
+     * Plays damage effect
+     * @param data data
+     * @return effect task
+     */
     default @NotNull DamageScheduler.ScheduledTask play(@NotNull DamageEffectData data) {
         var event = new CreateDamageEffectEvent(this, data);
         Bukkit.getPluginManager().callEvent(event);

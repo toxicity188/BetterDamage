@@ -7,8 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Pack path
+ */
 public final class PackPath {
 
+    /**
+     * Assets
+     */
     public static final PackPath ASSETS = new PackPath("assets");
 
     private final List<String> pathList;
@@ -17,10 +23,19 @@ public final class PackPath {
         this.pathList = pathList;
     }
 
+    /**
+     * Creates a pack path
+     * @param paths paths
+     */
     public PackPath(@NotNull String... paths) {
         this(List.of(paths));
     }
 
+    /**
+     * Resolves this path
+     * @param subPaths sub paths
+     * @return resolved path
+     */
     public @NotNull PackPath resolve(@NotNull String... subPaths) {
         var list = new ArrayList<String>(pathList.size() + subPaths.length);
         list.addAll(pathList);
@@ -28,10 +43,19 @@ public final class PackPath {
         return new PackPath(list);
     }
 
+    /**
+     * Joins this path
+     * @param delimiter delimiter
+     * @return joined string
+     */
     public @NotNull String join(@NotNull CharSequence delimiter) {
         return String.join(delimiter, pathList);
     }
 
+    /**
+     * Joins this path as zip entry
+     * @return zip entry
+     */
     public @NotNull String entry() {
         return join("/");
     }

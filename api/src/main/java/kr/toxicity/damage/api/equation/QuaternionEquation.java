@@ -5,20 +5,38 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
+/**
+ * Quaternion equation
+ * @param eulerAngle euler-angle vector equation
+ */
 public record QuaternionEquation(
         @NotNull VectorEquation eulerAngle
 ) implements Equation<Quaternionf> {
 
+    /**
+     * Degrees to radians value
+     */
     public static final float DEGREE_TO_RADIAN = (float) Math.PI / 180F;
 
+    /**
+     * Zero
+     */
     public static final QuaternionEquation ZERO = new QuaternionEquation(
             TEquation.ZERO
     );
 
+    /**
+     * Gets scala equation
+     * @param scala scala
+     */
     public QuaternionEquation(@NotNull TEquation scala) {
         this(new VectorEquation(scala));
     }
 
+    /**
+     * Gets quaternion equation
+     * @param section config
+     */
     public QuaternionEquation(@NotNull ConfigurationSection section) {
         this(new VectorEquation(section));
     }

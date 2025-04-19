@@ -7,15 +7,19 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.security.DigestOutputStream;
 import java.security.MessageDigest;
-import java.util.Comparator;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * Pack generator
+ */
 public interface PackGenerator {
 
+    /**
+     * Generates as directory
+     */
     PackGenerator FOLDER = (dir, map) -> {
         if (dir.exists() && !FileUtil.deleteAll(dir)) BetterDamage.inst().getLogger().warning("Unable to delete " + dir.getPath());
         map.entrySet()
@@ -35,6 +39,9 @@ public interface PackGenerator {
                 });
     };
 
+    /**
+     * Generates as SHA-1 resource pack.
+     */
     PackGenerator ZIP = (dir, map) -> {
         try (
                 var file = new FileOutputStream(new File(dir.getParentFile(), dir.getName() + ".zip"));
@@ -54,5 +61,10 @@ public interface PackGenerator {
         }
     };
 
+    /**
+     * Generates all files by byte map
+     * @param dir location
+     * @param byteMap byte array map
+     */
     void build(@NotNull File dir, @NotNull Map<PackPath, byte[]> byteMap);
 }

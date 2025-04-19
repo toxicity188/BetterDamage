@@ -11,13 +11,24 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
+/**
+ * Pack supplier
+ */
 @FunctionalInterface
 public interface PackSupplier extends Supplier<byte[]> {
 
+    /**
+     * Default gson
+     */
     Gson GSON = new GsonBuilder()
             .disableHtmlEscaping()
             .create();
 
+    /**
+     * Gets a supplier of some image
+     * @param image image
+     * @return supplier
+     */
     static @NotNull PackSupplier of(@NotNull BufferedImage image) {
         return () -> {
             try (
@@ -31,15 +42,20 @@ public interface PackSupplier extends Supplier<byte[]> {
         };
     }
 
+    /**
+     * Gets a supplier of some byte array
+     * @param bytes byte array
+     * @return supplier
+     */
     static @NotNull PackSupplier of(byte[] bytes) {
         return () -> bytes;
     }
-
+    /**
+     * Gets a supplier of some JSON element
+     * @param element JSON element
+     * @return supplier
+     */
     static @NotNull PackSupplier of(@NotNull JsonElement element) {
-        return () -> {
-            var builder = new StringBuilder();
-            GSON.toJson(element, builder);
-            return builder.toString().getBytes(StandardCharsets.UTF_8);
-        };
+        return () -> GSON.toJson(element).getBytes(StandardCharsets.UTF_8);
     }
 }

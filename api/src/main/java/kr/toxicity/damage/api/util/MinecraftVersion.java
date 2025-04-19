@@ -84,7 +84,7 @@ public record MinecraftVersion(int first, int second, int third) implements Comp
         this(version.split("\\."));
     }
     /**
-     * Parses version from string array
+     * Parses version from a string array
      * @param version version array like ["1", "21", "4"]
      */
     public MinecraftVersion(@NotNull String[] version) {
@@ -96,7 +96,7 @@ public record MinecraftVersion(int first, int second, int third) implements Comp
     }
 
     @Override
-    public String toString() {
+    public @NotNull String toString() {
         return first + "." + second + "." + third;
     }
 }

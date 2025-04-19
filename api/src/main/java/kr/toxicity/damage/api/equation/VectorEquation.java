@@ -6,23 +6,44 @@ import org.joml.Vector3f;
 
 import static java.util.Objects.requireNonNull;
 
+/**
+ * Vector equation
+ * @param x x
+ * @param y y
+ * @param z z
+ */
 public record VectorEquation(
         @NotNull TEquation x,
         @NotNull TEquation y,
         @NotNull TEquation z
 ) implements Equation<Vector3f> {
 
+    /**
+     * Zero
+     */
     public static final VectorEquation ZERO = new VectorEquation(
             TEquation.ZERO
     );
+
+    /**
+     * One
+     */
     public static final VectorEquation ONE = new VectorEquation(
             TEquation.ONE
     );
 
+    /**
+     * Creates scala equation
+     * @param scala scala
+     */
     public VectorEquation(@NotNull TEquation scala) {
         this(scala, scala, scala);
     }
 
+    /**
+     * Creates vector equation
+     * @param section config
+     */
     public VectorEquation(@NotNull ConfigurationSection section) {
         this(
                 new TEquation(requireNonNull(section.getString("x"), "x must be not null.")),

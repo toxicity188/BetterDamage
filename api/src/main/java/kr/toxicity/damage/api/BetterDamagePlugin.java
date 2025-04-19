@@ -47,7 +47,7 @@ public interface BetterDamagePlugin {
     void handle(@NotNull Throwable throwable, @NotNull String message);
 
     /**
-     * Gets Minecraft version of server.
+     * Gets a Minecraft version of server.
      * @return server version
      */
     @NotNull MinecraftVersion version();
@@ -143,7 +143,7 @@ public interface BetterDamagePlugin {
     @NotNull CompatibilityManager compatibilityManager();
 
     /**
-     * Loads assets
+     * Loads' assets
      */
     void loadAssets(@NotNull String prefix, @NotNull BiConsumer<String, InputStream> consumer);
 }

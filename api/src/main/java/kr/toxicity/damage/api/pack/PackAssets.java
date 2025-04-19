@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Resource pack assets.
+ */
 public final class PackAssets {
 
     private final Map<PackPath, PackSupplier> builderMap;
@@ -18,18 +21,35 @@ public final class PackAssets {
         betterDamage = new PackNamespace(builderMap, PackPath.ASSETS.resolve(BetterDamage.inst().configManager().namespace()));
     }
 
+    /**
+     * Gets minecraft namespace.
+     * @return minecraft
+     */
     public @NotNull PackNamespace minecraft() {
         return minecraft;
     }
 
+    /**
+     * Gets BetterDamage namespace.
+     * @return BetterDamage
+     */
     public @NotNull PackNamespace betterDamage() {
         return betterDamage;
     }
 
+    /**
+     * Adds some data to assets
+     * @param filePath path
+     * @param supplier data supplier
+     */
     public void add(@NotNull PackPath filePath, @NotNull PackSupplier supplier) {
         if (builderMap.put(filePath, supplier) != null) throw new RuntimeException("Name duplication found: " + filePath);
     }
 
+    /**
+     * Builds all data as a byte array.
+     * @return byte array map
+     */
     public @NotNull Map<PackPath, byte[]> build() {
         return builderMap.entrySet()
                 .parallelStream()

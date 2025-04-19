@@ -14,19 +14,49 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * Damage trigger
+ * @param <T> event type
+ */
 public interface DamageTrigger<T extends Event> {
 
+    /**
+     * Shared listener
+     */
     Listener LISTENER = new Listener() {
     };
 
+    /**
+     * Creates the builder of trigger
+     * @param eventClass event class
+     * @return builder
+     * @param <C> event type
+     */
     static <C extends Event> @NotNull Builder<C> builder(@NotNull Class<C> eventClass) {
         return new Builder<>(eventClass);
     }
 
+    /**
+     * Gets a trigger type
+     * @return type
+     */
     @NotNull DamageTriggerType type();
+
+    /**
+     * Gets an event class
+     * @return event class
+     */
     @NotNull Class<T> eventClass();
+
+    /**
+     * Gets a mapper of event to effect data
+     * @return mapper
+     */
     @NotNull Function<T, DamageEffectData> mapper();
 
+    /**
+     * Registers this trigger
+     */
     default void register() {
         Bukkit.getPluginManager().registerEvent(
                 eventClass(),
@@ -45,21 +75,40 @@ public interface DamageTrigger<T extends Event> {
         );
     }
 
+    /**
+     * Builder class of trigger
+     * @param <T> event type
+     */
     @RequiredArgsConstructor
     class Builder<T extends Event> {
         private final Class<T> eventClass;
         private DamageTriggerType type;
         private Function<T, DamageEffectData> mapper;
 
+        /**
+         * Sets trigger type
+         * @param type type
+         * @return self
+         */
         public @NotNull Builder<T> type(@NotNull DamageTriggerType type) {
             this.type = type;
             return this;
         }
+
+        /**
+         * Sets event mapper
+         * @param mapper mapper
+         * @return self
+         */
         public @NotNull Builder<T> mapper(@NotNull Function<T, DamageEffectData> mapper) {
             this.mapper = mapper;
             return this;
         }
 
+        /**
+         * Builds trigger
+         * @return trigger
+         */
         public @NotNull DamageTrigger<T> build() {
             Objects.requireNonNull(type, "type not set.");
             Objects.requireNonNull(mapper, "mapper not set.");

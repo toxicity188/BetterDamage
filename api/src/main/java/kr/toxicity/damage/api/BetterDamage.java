@@ -17,7 +17,7 @@ public final class BetterDamage {
     public static final int BSTATS_ID = 24961;
 
     /**
-     * Checks running platform is Paper.
+     * Check a running platform is Paper.
      */
     public static final boolean IS_PAPER;
 
