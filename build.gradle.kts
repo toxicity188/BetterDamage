@@ -34,7 +34,7 @@ allprojects {
         implementation("net.jodah:expiringmap:0.5.11")
         implementation("org.bstats:bstats-bukkit:3.1.0")
 
-        compileOnly("com.zaxxer:HikariCP:6.2.1")
+        compileOnly("com.zaxxer:HikariCP:6.3.0")
         compileOnly("com.vdurmont:semver4j:3.1.0")
         compileOnly("net.kyori:adventure-platform-bukkit:4.3.4")
 
@@ -169,7 +169,7 @@ bukkitPluginYaml {
         "net.kyori:adventure-api:$adventure",
         "net.kyori:adventure-text-serializer-gson:$adventure",
         "net.kyori:adventure-platform-bukkit:4.3.4",
-        "com.zaxxer:HikariCP:6.2.1",
+        "com.zaxxer:HikariCP:6.3.0",
         "com.vdurmont:semver4j:3.1.0"
     )
 }
