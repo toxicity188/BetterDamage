@@ -11,7 +11,7 @@ plugins {
 
 val minecraft = "1.21.4"
 val targetJavaVersion = 21
-val adventure = "4.20.0"
+val adventure = "4.21.0"
 
 allprojects {
     apply(plugin = "java")
