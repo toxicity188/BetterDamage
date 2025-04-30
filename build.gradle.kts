@@ -156,7 +156,7 @@ bukkitPluginYaml {
     website = "https://github.com/toxicity188/BetterDamage"
     name = rootProject.name
     foliaSupported = true
-    apiVersion = "1.19"
+    apiVersion = "1.20"
     author = "toxicity"
     description = "Provides simple damage skin for Minecraft Bukkit."
     softDepend = listOf(

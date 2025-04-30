@@ -120,6 +120,12 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
             is ReloadState.OnReload -> warn("Plugin load failed.")
             is ReloadState.Success -> info("Plugin has successfully loaded.")
         }
+        HttpUtil.userInfo().thenAccept {
+            info(it.toLogMessage())
+        }.exceptionally { e ->
+            e.handle("Unable to get userinfo.")
+            null
+        }
         HttpUtil.latest().thenAccept {
             if (semver < it) {
                 info(
