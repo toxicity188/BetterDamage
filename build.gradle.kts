@@ -18,7 +18,7 @@ allprojects {
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.0.2"
+    version = "1.0.3"
 
     repositories {
         mavenCentral()
@@ -30,7 +30,7 @@ allprojects {
     dependencies {
         testImplementation(kotlin("test"))
         implementation("net.objecthunter:exp4j:0.4.8")
-        implementation("dev.jorel:commandapi-bukkit-shade:10.0.0")
+        implementation("dev.jorel:commandapi-bukkit-shade:10.0.1")
         implementation("net.jodah:expiringmap:0.5.11")
         implementation("org.bstats:bstats-bukkit:3.1.0")
 
