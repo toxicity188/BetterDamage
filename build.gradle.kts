@@ -38,7 +38,7 @@ allprojects {
         compileOnly("com.vdurmont:semver4j:3.1.0")
         compileOnly("net.kyori:adventure-platform-bukkit:4.4.0")
 
-        compileOnly("io.github.toxicity188:BetterModel:1.5.5")
+        compileOnly("io.github.toxicity188:BetterModel:1.6.0")
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
