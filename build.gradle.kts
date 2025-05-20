@@ -3,7 +3,7 @@ import java.time.LocalDateTime
 plugins {
     java
     kotlin("jvm") version "2.1.21"
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.17" apply false
+    id("io.papermc.paperweight.userdev") version "2.0.0-SNAPSHOT" apply false
     id("xyz.jpenilla.run-paper") version "2.3.1"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.3.0"
     id("io.github.goooler.shadow") version "8.1.8"
