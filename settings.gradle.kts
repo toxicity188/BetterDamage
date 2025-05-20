@@ -1,6 +1,15 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        maven("https://repo.papermc.io/repository/maven-public/") //Paper
+    }
+}
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
+
 rootProject.name = "BetterDamage"
 
 include(
