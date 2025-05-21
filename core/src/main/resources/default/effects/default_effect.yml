@@ -37,3 +37,22 @@ default_effect_crit:
             x: 1.5cos(t / 40 * pi)
             y: 1.5cos(t / 40 * pi)
             z: 1.5cos(t / 40 * pi)
+default_effect_decimal:
+    image: default_image
+    duration: 20
+    interval: 2
+    number-format: "#.#"
+    color: "#FFD800"
+    transformation:
+        position:
+            x: 0
+            y: 1.5sin(t / 40 * pi)
+            z: 0
+        rotation:
+            x: 60(r - 0.5)
+            z: 0
+            y: 60(r - 0.5)
+        scale:
+            x: cos(t / 40 * pi)
+            y: cos(t / 40 * pi)
+            z: cos(t / 40 * pi)
