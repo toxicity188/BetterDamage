@@ -54,7 +54,12 @@ public interface ConfigManager extends DamageManager {
      * @return auto save time
      */
     long autoSaveTime();
-
+    /**
+     * Checks if decimal damage display is enabled
+     * Default: false
+     * @return decimal damage
+     */
+    boolean showDecimalDamage();
     /**
      * Gets default damage effect
      * @return default damage effect
