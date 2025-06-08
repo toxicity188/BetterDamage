@@ -7,3 +7,4 @@ create-mcmeta: false
 auto-save-time: 300
 default-effect: "null" #Default effect
 default-skin: "default_skin"
+show-decimal-damage: false
