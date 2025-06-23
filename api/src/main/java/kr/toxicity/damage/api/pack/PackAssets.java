@@ -15,6 +15,9 @@ public final class PackAssets {
     private final Map<PackPath, PackSupplier> builderMap;
     private final PackNamespace minecraft, betterDamage;
 
+    /**
+     * Creates assets
+     */
     public PackAssets() {
         builderMap = new HashMap<>();
         minecraft = new PackNamespace(builderMap, PackPath.ASSETS.resolve("minecraft"));

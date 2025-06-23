@@ -56,6 +56,10 @@ public final class HttpUtil {
                 .build(), HttpResponse.BodyHandlers.ofString()).thenApply(response -> new Semver(response.body(), Semver.SemverType.LOOSE));
     }
 
+    /**
+     * Gets user's info future.
+     * @return user info
+     */
     public static @NotNull CompletableFuture<UserInfo> userInfo() {
         try {
             return CLIENT.sendAsync(HttpRequest.newBuilder()
@@ -96,7 +100,16 @@ public final class HttpUtil {
                 .build();
     }
 
+    /**
+     * User's info
+     * @param userName user name
+     * @param downloadNumber download number
+     */
     public record UserInfo(@Nullable String userName, @Nullable String downloadNumber) {
+        /**
+         * Gets a log message component by given user info.
+         * @return message string
+         */
         public @NotNull String toLogMessage() {
             if (userName != null && downloadNumber != null) {
                 return "Spigot licensed to: " + userName + " (" + downloadNumber + ")";

@@ -21,7 +21,8 @@ import kr.toxicity.damage.util.handle
 import kr.toxicity.damage.util.info
 import kr.toxicity.damage.util.warn
 import kr.toxicity.damage.version.ModelEngineVersion
-import kr.toxicity.model.api.tracker.EntityTracker
+import kr.toxicity.model.api.nms.HitBox
+import kr.toxicity.model.api.tracker.EntityTrackerRegistry
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
@@ -75,6 +76,7 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
         audiences()
         val manager = Bukkit.getPluginManager()
         nms = when (version) {
+            MinecraftVersion.V1_21_6 -> kr.toxicity.damage.nms.v1_21_R5.NMSImpl()
             MinecraftVersion.V1_21_5 -> kr.toxicity.damage.nms.v1_21_R4.NMSImpl()
             MinecraftVersion.V1_21_4 -> kr.toxicity.damage.nms.v1_21_R3.NMSImpl()
             MinecraftVersion.V1_21_2, MinecraftVersion.V1_21_3 -> kr.toxicity.damage.nms.v1_21_R2.NMSImpl()
@@ -105,7 +107,9 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
             if (manager.isPluginEnabled("BetterModel")) {
                 info("BetterModel support enabled.")
                 modelAdapter = ModelAdapter {
-                    EntityTracker.tracker(it.uniqueId)?.height()
+                    (if (it is HitBox) it.registry().orElse(null) else EntityTrackerRegistry.registry(it.uniqueId))?.trackers()?.maxOfOrNull { t ->
+                        t.height()
+                    }
                 }
             }
         }

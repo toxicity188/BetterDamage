@@ -143,7 +143,9 @@ public interface BetterDamagePlugin {
     @NotNull CompatibilityManager compatibilityManager();
 
     /**
-     * Loads' assets
+     * Loads plugin's file tree assets.
+     * @param prefix resource folder prefix
+     * @param consumer consumer
      */
     void loadAssets(@NotNull String prefix, @NotNull BiConsumer<String, InputStream> consumer);
 }

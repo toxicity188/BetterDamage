@@ -8,18 +8,22 @@ import org.joml.Vector3f;
 
 import static java.util.Optional.ofNullable;
 
+/**
+ * Transformation equation
+ * @param position position equation
+ * @param rotation rotation equation
+ * @param scale scale equation
+ */
 public record TransformationEquation(
         @NotNull VectorEquation position,
         @NotNull QuaternionEquation rotation,
         @NotNull VectorEquation scale
 ) implements Equation<Transformation> {
 
-    public static final TransformationEquation DEFAULT = new TransformationEquation(
-            VectorEquation.ZERO,
-            QuaternionEquation.ZERO,
-            VectorEquation.ONE
-    );
-
+    /**
+     * Creates from config
+     * @param section section
+     */
     public TransformationEquation(@NotNull ConfigurationSection section) {
         this(
                 ofNullable(section.getConfigurationSection("position")).map(VectorEquation::new).orElse(VectorEquation.ZERO),
@@ -27,7 +31,6 @@ public record TransformationEquation(
                 ofNullable(section.getConfigurationSection("scale")).map(VectorEquation::new).orElse(VectorEquation.ONE)
         );
     }
-
 
     @Override
     public @NotNull Reader<Transformation> reader(@NotNull EquationData data) {

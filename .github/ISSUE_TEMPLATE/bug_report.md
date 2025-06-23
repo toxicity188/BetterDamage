@@ -18,7 +18,7 @@ I required some help to provide you a correct solution.
 - Your resource
 3. Remember to notice your environment
 - OS(windows/mac/etc)
-- Server version(1.21.5/etc)
+- Server version(1.21.6/etc)
 - Server platform(Spigot/Paper/Folia/Purpur/etc)
 
 **Disclaimer**  
