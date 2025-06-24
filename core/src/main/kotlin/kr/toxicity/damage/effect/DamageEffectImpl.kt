@@ -1,5 +1,6 @@
 package kr.toxicity.damage.effect
 
+import kr.toxicity.damage.api.BetterDamage
 import kr.toxicity.damage.api.effect.DamageEffect
 import kr.toxicity.damage.api.effect.DamageEffectCounter
 import kr.toxicity.damage.api.equation.TEquation
@@ -38,8 +39,12 @@ class DamageEffectImpl(section: ConfigurationSection) : DamageEffect {
     private val opacity = section.getAsEquation("opacity") ?: TEquation.FULL_OPACITY
     private val counter = DamageEffectCounter()
     private val numberFormat = runCatching {
-        DecimalFormat(section.getString("number-format", "#"))
-    }.getOrNull() ?: DecimalFormat("#")
+        if (section.isSet("number-format")) {
+            DecimalFormat(section.getString("number-format", "#"))
+        } else {
+            null
+        }
+    }.getOrNull()
 
     override fun image(): DamageImage = image
     override fun duration(): Int = duration
@@ -53,5 +58,9 @@ class DamageEffectImpl(section: ConfigurationSection) : DamageEffect {
     override fun skyLight(): TEquation = skyLight
     override fun counter(): DamageEffectCounter = counter
     override fun opacity(): TEquation = opacity
-    override fun numberFormat(): NumberFormat = numberFormat
+    override fun numberFormat(): NumberFormat = numberFormat ?: if (BetterDamage.inst().configManager().showDecimalDamage()) {
+        DecimalFormat("#.#") // Format avec une décimale si l'option est activée
+    } else {
+        DecimalFormat("#") // Format entier par défaut
+    }
 }

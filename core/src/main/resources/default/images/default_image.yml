@@ -1,3 +1,4 @@
 default_image:
   file: "default.png"
+  codepoints: "0123456789."
   space: -2
