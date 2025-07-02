@@ -123,7 +123,10 @@ public interface DamageEffect {
     default @NotNull String toString(double damage) {
         var sb = new StringBuilder();
         var index = 0;
-        var array = numberFormat().format(damageModifier().evaluate(damage))
+        var space = image().space();
+        var damageString = numberFormat().format(damageModifier().evaluate(damage));
+        if (space == 0) return damageString;
+        var array = damageString
                 .codePoints()
                 .toArray();
         for (int codepoint : array) {

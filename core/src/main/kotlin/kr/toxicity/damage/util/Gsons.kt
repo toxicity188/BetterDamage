@@ -8,8 +8,8 @@ import com.google.gson.JsonPrimitive
 fun buildJsonArray(capacity: Int = 10, block: JsonArray.() -> Unit) = JsonArray(capacity).apply(block)
 fun buildJsonObject(block: JsonObject.() -> Unit) = JsonObject().apply(block)
 
-fun jsonArrayOf(vararg element: Any) = buildJsonArray {
-    element.forEach {
+fun jsonArrayOf(vararg element: Any?) = buildJsonArray {
+    element.filterNotNull().forEach {
         add(it.toJsonElement())
     }
 }

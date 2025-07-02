@@ -34,14 +34,17 @@ object ImageManagerImpl : ImageManager {
                 val codepoints = section.getString("codepoints") ?: "0123456789"
                 val count = codepoints.codePoints().count().toInt()
                 if (image.width % count != 0) throw RuntimeException("codepoints length mismatched: ${image.width} cannot divided into $count.")
+                val space = section.getInt("space")
                 assets.betterDamage().textures().add(imageName.name, PackSupplier.of(image))
                 assets.betterDamage().font().add("$key.json", PackSupplier.of(jsonObjectOf("providers" to jsonArrayOf(
                     jsonObjectOf(
                         "type" to "space",
                         "advances" to jsonObjectOf(
-                            DamageImage.SPACE_CODEPOINT to section.getInt("space")
+                            DamageImage.SPACE_CODEPOINT to space
                         )
-                    ),
+                    ).takeIf {
+                        space != 0
+                    },
                     jsonObjectOf(
                         "type" to "bitmap",
                         "file" to "$NAMESPACE:${imageName.name}",
@@ -50,7 +53,7 @@ object ImageManagerImpl : ImageManager {
                         "chars" to jsonArrayOf(codepoints)
                     )
                 ))))
-                imageMap[key] = DamageImageImpl(createAdventureKey(key))
+                imageMap[key] = DamageImageImpl(space, createAdventureKey(key))
             }.onFailure { e ->
                 e.handle("Unable to read this image: $key")
             }
@@ -58,8 +61,10 @@ object ImageManagerImpl : ImageManager {
     }
 
     private class DamageImageImpl(
+        private val space: Int,
         private val key: Key
     ) : DamageImage {
+        override fun space(): Int = space
         override fun key(): Key = key
     }
 
