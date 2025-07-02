@@ -18,7 +18,7 @@ allprojects {
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.1.0"
+    version = "1.1.1"
 
     repositories {
         mavenCentral()
@@ -30,7 +30,8 @@ allprojects {
     dependencies {
         testImplementation(kotlin("test"))
         implementation("net.objecthunter:exp4j:0.4.8")
-        implementation("dev.jorel:commandapi-bukkit-shade:10.1.0")
+        //implementation("dev.jorel:commandapi-bukkit-shade:10.1.0")
+        implementation(rootProject.fileTree("libs"))
         implementation("net.jodah:expiringmap:0.5.11")
         implementation("org.bstats:bstats-bukkit:3.1.0")
 
@@ -114,8 +115,8 @@ tasks {
         pluginJars(fileTree("plugins"))
         version(minecraft)
         downloadPlugins {
-            hangar("ViaVersion", "5.4.0")
-            hangar("ViaBackwards", "5.4.0")
+            hangar("ViaVersion", "5.4.1")
+            hangar("ViaBackwards", "5.4.1")
         }
     }
     jar {

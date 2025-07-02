@@ -10,12 +10,10 @@ import kr.toxicity.damage.api.image.DamageImage;
 import kr.toxicity.damage.api.scheduler.DamageScheduler;
 import kr.toxicity.damage.api.util.BitUtil;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.ShadowColor;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Display;
-import org.bukkit.entity.Player;
 import org.bukkit.util.Transformation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +21,6 @@ import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.text.NumberFormat;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
@@ -53,10 +50,10 @@ public interface DamageEffect {
     int interval();
 
     /**
-     * Gets a world radius of this effect to show third-party player.
-     * @return radius
+     * Checks this damage effect should be rendered by all tracked player
+     * @return show global player
      */
-    double showPlayerInRadius();
+    boolean showGlobalPlayer();
 
     /**
      * Gets a text color of this effect
@@ -113,20 +110,10 @@ public interface DamageEffect {
     @NotNull NumberFormat numberFormat();
 
     /**
-     * Gets a nearby player of given location
-     * @param player caster
-     * @param location location
-     * @return nearby player
+     * Gets a shadow color of this effect
+     * @return shadow color
      */
-    default @NotNull Stream<Player> playerInRadius(@NotNull Player player, @NotNull Location location) {
-        var r = showPlayerInRadius();
-        return r <= 0.0 ? Stream.empty() : location.getWorld().getNearbyEntities(location, r, r, r)
-                .stream()
-                .map(e -> e instanceof Player other ? other : null)
-                .filter(p -> p != player)
-                .filter(Objects::nonNull)
-                .filter(OfflinePlayer::isOnline);
-    }
+    int shadowColor();
 
     /**
      * Parses this damage to string
@@ -169,15 +156,15 @@ public interface DamageEffect {
         var display = BetterDamage.inst().nms().create(initialLocation);
         display.frame(interval() + 1);
         display.billboard(billboard());
-        display.text(
-                Component.text()
-                        .content(toString(data.damage()))
-                        .color(color())
-                        .font(image().key())
-                        .build()
-        );
-        display.spawn(data.player());
-        playerInRadius(data.player(), initialLocation).forEach(display::spawn);
+        var builder = Component.text()
+                .content(toString(data.damage()))
+                .color(color())
+                .font(image().key());
+        if (BetterDamage.inst().version().supportShadowColor()) builder.shadowColor(ShadowColor.shadowColor(shadowColor()));
+        display.text(builder.build());
+        var stream = Stream.of(data.player());
+        if (showGlobalPlayer()) stream = Stream.concat(stream, data.entity().getTrackedBy().stream());
+        stream.forEach(display::spawn);
         var limit = duration() / interval();
         var blockLight = blockLight().reader(equationData);
         var skyLight = skyLight().reader(equationData);

@@ -7,6 +7,10 @@ import org.jetbrains.annotations.NotNull;
  * Image resource of damage skin
  */
 public interface DamageImage {
+    /**
+     * Not set
+     */
+    DamageImage NOT_SET = () -> Key.key("default");
 
     /**
      * A codepoint string of space
