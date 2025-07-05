@@ -7,7 +7,10 @@ import kr.toxicity.damage.api.nms.NMS
 import kr.toxicity.damage.api.nms.NMSVersion
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
-import net.minecraft.network.protocol.game.*
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket
+import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket
+import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket
 import net.minecraft.server.network.ServerGamePacketListenerImpl
 import net.minecraft.util.Brightness
 import net.minecraft.world.entity.Display
@@ -59,7 +62,7 @@ class NMSImpl : NMS {
                         0,
                         display.deltaMovement,
                         display.yHeadRot.toDouble()
-                    ))
+                    ).toBundlePacket())
                 }
             }
         }
@@ -92,10 +95,13 @@ class NMSImpl : NMS {
         }
 
         override fun update() {
-            val packet = ClientboundBundlePacket(listOf(
-                ClientboundSetEntityDataPacket(display.id, display.entityData.nonDefaultValues ?: emptyList()),
-                ClientboundTeleportEntityPacket(display)
-            ))
+            val sync = ClientboundTeleportEntityPacket(display)
+            val packet = display.entityData.packDirty()?.let {
+                listOf(
+                    sync,
+                    ClientboundSetEntityDataPacket(display.id, it)
+                ).toBundlePacket()
+            } ?: sync
             connectionMap.values.forEach {
                 it.send(packet)
             }
@@ -111,7 +117,7 @@ class NMSImpl : NMS {
         }
 
         override fun remove() {
-            val packet = ClientboundRemoveEntitiesPacket(display.id)
+            val packet = ClientboundRemoveEntitiesPacket(display.id).toBundlePacket()
             connectionMap.values.removeIf {
                 it.send(packet)
                 true

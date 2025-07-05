@@ -164,7 +164,7 @@ public interface DamageEffect {
                 .color(color())
                 .font(image().key());
         if (BetterDamage.inst().version().supportShadowColor()) builder.shadowColor(ShadowColor.shadowColor(shadowColor()));
-        display.text(builder.build());
+        display.text(builder.build().compact());
         var stream = Stream.of(data.player());
         if (showGlobalPlayer()) stream = Stream.concat(stream, data.entity().getTrackedBy().stream());
         stream.forEach(display::spawn);

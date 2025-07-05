@@ -18,13 +18,14 @@ allprojects {
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.1.2"
+    version = "1.1.3"
 
     repositories {
         mavenCentral()
         maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://nexus.phoenixdevt.fr/repository/maven-public/") //MMOItems, MMOCore, MythicLib
         maven("https://mvn.lumine.io/repository/maven-public/")
+        maven("https://jitpack.io")
     }
 
     dependencies {
@@ -34,6 +35,9 @@ allprojects {
         implementation(rootProject.fileTree("libs"))
         implementation("net.jodah:expiringmap:0.5.11")
         implementation("org.bstats:bstats-bukkit:3.1.0")
+        implementation("com.github.toxicity188:SharedPackets:1.0.0") {
+            exclude("net.kyori")
+        }
 
         compileOnly("com.zaxxer:HikariCP:6.3.0")
         compileOnly("com.vdurmont:semver4j:3.1.0")
@@ -137,7 +141,7 @@ tasks {
         }
         archiveClassifier = ""
         dependencies {
-            exclude(dependency("org.jetbrains:annotations:13.0"))
+            exclude(dependency("org.jetbrains:annotations:26.0.2"))
         }
         fun prefix(pattern: String) {
             relocate(pattern, "$groupString.shaded.$pattern")
@@ -148,6 +152,7 @@ tasks {
         prefix("net.objecthunter.exp4j")
         prefix("net.jodah.expiringmap")
         prefix("org.bstats")
+        prefix("kr.toxicity.library")
     }
 }
 
