@@ -66,6 +66,7 @@ public interface DamageTrigger<T extends Event> {
                     if (!eventClass().isInstance(event)) return;
                     var data = mapper().apply(eventClass().cast(event));
                     if (data == null) return;
+                    if (BetterDamage.inst().configManager().skipZeroDamage() && data.damage() < 0.5) return;
                     Optional.ofNullable(BetterDamage.inst().playerManager().player(data.player().getUniqueId()))
                             .map(d -> d.data().effect(type()))
                             .ifPresent(effect -> effect.play(data));

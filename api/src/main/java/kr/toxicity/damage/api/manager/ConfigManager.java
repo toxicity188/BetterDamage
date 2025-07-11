@@ -56,6 +56,12 @@ public interface ConfigManager extends DamageManager {
     long autoSaveTime();
 
     /**
+     * Skips if event-damage is zero
+     * @return skip zero damage
+     */
+    boolean skipZeroDamage();
+
+    /**
      * Gets default damage effect
      * @return default damage effect
      */

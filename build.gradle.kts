@@ -3,13 +3,13 @@ import java.time.LocalDateTime
 plugins {
     java
     kotlin("jvm") version "2.2.0"
-    id("io.papermc.paperweight.userdev") version "2.0.0-SNAPSHOT" apply false
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.18" apply false
     id("xyz.jpenilla.run-paper") version "2.3.1"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.3.0"
     id("io.github.goooler.shadow") version "8.1.8"
 }
 
-val minecraft = "1.21.4"
+val minecraft = "1.21.7"
 val targetJavaVersion = 21
 val adventure = "4.23.0"
 
@@ -30,10 +30,8 @@ allprojects {
 
     dependencies {
         testImplementation(kotlin("test"))
-        implementation("net.objecthunter:exp4j:0.4.8")
         implementation("dev.jorel:commandapi-bukkit-shade:10.1.1")
         implementation(rootProject.fileTree("libs"))
-        implementation("net.jodah:expiringmap:0.5.11")
         implementation("org.bstats:bstats-bukkit:3.1.0")
         implementation("com.github.toxicity188:SharedPackets:1.0.0") {
             exclude("net.kyori")
@@ -42,6 +40,8 @@ allprojects {
         compileOnly("com.zaxxer:HikariCP:6.3.0")
         compileOnly("com.vdurmont:semver4j:3.1.0")
         compileOnly("net.kyori:adventure-platform-bukkit:4.4.0")
+        compileOnly("net.jodah:expiringmap:0.5.11")
+        compileOnly("net.objecthunter:exp4j:0.4.8")
 
         compileOnly("io.github.toxicity188:BetterModel:1.8.1")
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
@@ -149,8 +149,6 @@ tasks {
         exclude("LICENSE")
         prefix("kotlin")
         prefix("dev.jorel.commandapi")
-        prefix("net.objecthunter.exp4j")
-        prefix("net.jodah.expiringmap")
         prefix("org.bstats")
         prefix("kr.toxicity.library")
     }
@@ -176,6 +174,8 @@ bukkitPluginYaml {
         "net.kyori:adventure-text-serializer-gson:$adventure",
         "net.kyori:adventure-platform-bukkit:4.4.0",
         "com.zaxxer:HikariCP:6.3.0",
-        "com.vdurmont:semver4j:3.1.0"
+        "com.vdurmont:semver4j:3.1.0",
+        "net.jodah:expiringmap:0.5.11",
+        "net.objecthunter:exp4j:0.4.8"
     )
 }

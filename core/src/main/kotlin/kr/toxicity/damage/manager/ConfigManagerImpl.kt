@@ -25,6 +25,7 @@ object ConfigManagerImpl : ConfigManager {
     private var packType = "zip"
     private var createMcmeta = false
     private var autoSaveTime = 300L * 20
+    private var skipZeroDamage = true
     private var effectSupplier: () -> DamageEffect? = {
         null
     }
@@ -46,6 +47,7 @@ object ConfigManagerImpl : ConfigManager {
             packType = getString("pack-type") ?: "zip"
             createMcmeta = getBoolean("create-mcmeta")
             autoSaveTime = getLong("auto-save-time", 300) * 20
+            skipZeroDamage = getBoolean("skip-zero-damage", true)
             effectSupplier = (getString("default-effect") ?: "default_effect").let {
                 {
                     EffectManagerImpl.effect(it)
@@ -83,6 +85,7 @@ object ConfigManagerImpl : ConfigManager {
     override fun packType(): String = packType
     override fun createMcmeta(): Boolean = createMcmeta
     override fun autoSaveTime(): Long = autoSaveTime
+    override fun skipZeroDamage(): Boolean = skipZeroDamage
     override fun metrics(): Boolean = metrics != null
     override fun defaultEffect(): DamageEffect? = effectSupplier()
     override fun defaultSkin(): DamageSkin? = skinSupplier()
