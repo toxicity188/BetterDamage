@@ -43,7 +43,7 @@ allprojects {
         compileOnly("net.jodah:expiringmap:0.5.11")
         compileOnly("net.objecthunter:exp4j:0.4.8")
 
-        compileOnly("io.github.toxicity188:BetterModel:1.9.3")
+        compileOnly("io.github.toxicity188:BetterModel:1.10.0")
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
