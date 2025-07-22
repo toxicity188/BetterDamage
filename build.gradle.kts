@@ -30,7 +30,7 @@ allprojects {
 
     dependencies {
         testImplementation(kotlin("test"))
-        implementation("dev.jorel:commandapi-bukkit-shade:10.1.1")
+        implementation("dev.jorel:commandapi-bukkit-shade:10.1.2")
         implementation(rootProject.fileTree("libs"))
         implementation("org.bstats:bstats-bukkit:3.1.0")
         implementation("com.github.toxicity188:SharedPackets:1.0.0") {
