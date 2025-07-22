@@ -9,7 +9,7 @@ plugins {
     id("io.github.goooler.shadow") version "8.1.8"
 }
 
-val minecraft = "1.21.7"
+val minecraft = "1.21.8"
 val targetJavaVersion = 21
 val adventure = "4.23.0"
 
@@ -18,7 +18,7 @@ allprojects {
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.1.3"
+    version = "1.1.4"
 
     repositories {
         mavenCentral()
@@ -119,8 +119,8 @@ tasks {
         pluginJars(fileTree("plugins"))
         version(minecraft)
         downloadPlugins {
-            hangar("ViaVersion", "5.4.1")
-            hangar("ViaBackwards", "5.4.1")
+//            hangar("ViaVersion", "5.4.1")
+//            hangar("ViaBackwards", "5.4.1")
         }
     }
     jar {
