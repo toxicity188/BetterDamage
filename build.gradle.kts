@@ -18,7 +18,7 @@ allprojects {
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.1.4"
+    version = "1.1.5"
 
     repositories {
         mavenCentral()
@@ -37,7 +37,7 @@ allprojects {
             exclude("net.kyori")
         }
 
-        compileOnly("com.zaxxer:HikariCP:6.3.1")
+        compileOnly("com.zaxxer:HikariCP:6.3.0")
         compileOnly("com.vdurmont:semver4j:3.1.0")
         compileOnly("net.kyori:adventure-platform-bukkit:4.4.0")
         compileOnly("net.jodah:expiringmap:0.5.11")
@@ -173,7 +173,7 @@ bukkitPluginYaml {
         "net.kyori:adventure-api:$adventure",
         "net.kyori:adventure-text-serializer-gson:$adventure",
         "net.kyori:adventure-platform-bukkit:4.4.0",
-        "com.zaxxer:HikariCP:6.3.1",
+        "com.zaxxer:HikariCP:6.3.0",
         "com.vdurmont:semver4j:3.1.0",
         "net.jodah:expiringmap:0.5.11",
         "net.objecthunter:exp4j:0.4.8"

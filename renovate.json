@@ -4,6 +4,7 @@
     "config:recommended"
   ],
   "ignoreDeps": [
-    "org.jetbrains:annotations"
+    "org.jetbrains:annotations",
+    "com.zaxxer:HikariCP"
   ]
 }
