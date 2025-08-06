@@ -6,12 +6,12 @@ plugins {
     id("io.papermc.paperweight.userdev") version "2.0.0-beta.18" apply false
     id("xyz.jpenilla.run-paper") version "2.3.1"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.3.0"
-    id("io.github.goooler.shadow") version "8.1.8"
+    id("com.gradleup.shadow") version "9.0.0-rc3"
 }
 
 val minecraft = "1.21.8"
 val targetJavaVersion = 21
-val adventure = "4.23.0"
+val adventure = "4.24.0"
 
 allprojects {
     apply(plugin = "java")
@@ -37,13 +37,13 @@ allprojects {
             exclude("net.kyori")
         }
 
-        compileOnly("com.zaxxer:HikariCP:6.3.0")
+        compileOnly("com.zaxxer:HikariCP:7.0.0")
         compileOnly("com.vdurmont:semver4j:3.1.0")
         compileOnly("net.kyori:adventure-platform-bukkit:4.4.0")
         compileOnly("net.jodah:expiringmap:0.5.11")
         compileOnly("net.objecthunter:exp4j:0.4.8")
 
-        compileOnly("io.github.toxicity188:BetterModel:1.10.0")
+        compileOnly("io.github.toxicity188:BetterModel:1.10.2")
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
@@ -119,8 +119,8 @@ tasks {
         pluginJars(fileTree("plugins"))
         version(minecraft)
         downloadPlugins {
-//            hangar("ViaVersion", "5.4.1")
-//            hangar("ViaBackwards", "5.4.1")
+            hangar("ViaVersion", "5.4.2")
+            hangar("ViaBackwards", "5.4.2")
         }
     }
     jar {
