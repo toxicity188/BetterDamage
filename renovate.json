@@ -5,6 +5,7 @@
   ],
   "ignoreDeps": [
     "org.jetbrains:annotations",
-    "com.zaxxer:HikariCP"
+    "com.zaxxer:HikariCP",
+    "net.kyori:adventure-platform-bukkit"
   ]
 }
