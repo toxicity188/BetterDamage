@@ -39,7 +39,7 @@ allprojects {
 
         compileOnly("com.zaxxer:HikariCP:7.0.0")
         compileOnly("com.vdurmont:semver4j:3.1.0")
-        compileOnly("net.kyori:adventure-platform-bukkit:4.4.0")
+        compileOnly("net.kyori:adventure-platform-bukkit:4.4.1")
         compileOnly("net.jodah:expiringmap:0.5.11")
         compileOnly("net.objecthunter:exp4j:0.4.8")
 
@@ -172,7 +172,7 @@ bukkitPluginYaml {
     libraries = listOf(
         "net.kyori:adventure-api:$adventure",
         "net.kyori:adventure-text-serializer-gson:$adventure",
-        "net.kyori:adventure-platform-bukkit:4.4.0",
+        "net.kyori:adventure-platform-bukkit:4.4.1",
         "com.zaxxer:HikariCP:6.3.0",
         "com.vdurmont:semver4j:3.1.0",
         "net.jodah:expiringmap:0.5.11",
