@@ -2,11 +2,11 @@ import java.time.LocalDateTime
 
 plugins {
     java
-    kotlin("jvm") version "2.2.0"
+    kotlin("jvm") version "2.2.10"
     id("io.papermc.paperweight.userdev") version "2.0.0-beta.18" apply false
     id("xyz.jpenilla.run-paper") version "2.3.1"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.3.0"
-    id("com.gradleup.shadow") version "9.0.0-rc3"
+    id("com.gradleup.shadow") version "9.0.2"
 }
 
 val minecraft = "1.21.8"
@@ -18,7 +18,7 @@ allprojects {
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.1.5"
+    version = "1.1.6"
 
     repositories {
         mavenCentral()
@@ -37,13 +37,13 @@ allprojects {
             exclude("net.kyori")
         }
 
-        compileOnly("com.zaxxer:HikariCP:7.0.0")
+        compileOnly("com.zaxxer:HikariCP:7.0.2")
         compileOnly("com.vdurmont:semver4j:3.1.0")
-        compileOnly("net.kyori:adventure-platform-bukkit:4.4.0")
+        compileOnly("net.kyori:adventure-platform-bukkit:4.4.1")
         compileOnly("net.jodah:expiringmap:0.5.11")
         compileOnly("net.objecthunter:exp4j:0.4.8")
 
-        compileOnly("io.github.toxicity188:BetterModel:1.11.0")
+        compileOnly("io.github.toxicity188:bettermodel:1.11.2")
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
@@ -172,8 +172,8 @@ bukkitPluginYaml {
     libraries = listOf(
         "net.kyori:adventure-api:$adventure",
         "net.kyori:adventure-text-serializer-gson:$adventure",
-        "net.kyori:adventure-platform-bukkit:4.4.0",
-        "com.zaxxer:HikariCP:6.3.0",
+        "net.kyori:adventure-platform-bukkit:4.4.1",
+        "com.zaxxer:HikariCP:7.0.2",
         "com.vdurmont:semver4j:3.1.0",
         "net.jodah:expiringmap:0.5.11",
         "net.objecthunter:exp4j:0.4.8"
