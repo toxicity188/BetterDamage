@@ -13,7 +13,7 @@ object DatabaseManagerImpl : DatabaseManager {
     private val defaultDatabase = YamlDatabase()
     private var currentDatabase: DamagePlayerDatabase = defaultDatabase
     private var connection = defaultDatabase.connect(YamlConfiguration())
-    private val databaseMap = hashMapOf<String, DamagePlayerDatabase>(
+    private val databaseMap = hashMapOf(
         "yml" to defaultDatabase,
         "mysql" to MysqlDatabase()
     )

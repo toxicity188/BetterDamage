@@ -85,22 +85,22 @@ class MysqlDatabase : DamagePlayerDatabase {
         }
 
         override fun save(uuid: UUID, data: DamagePlayerData) {
-            val impl = data as DamagePlayerDataImpl
+            data as DamagePlayerDataImpl
             val uuidString = uuid.toString()
             transaction {
-                if (impl.removalSet.isNotEmpty()) update("DELETE FROM player_skin WHERE uuid = ? AND skin IN (${impl.removalSet.toPlaceholder()});") {
+                if (data.removalSet.isNotEmpty()) update("DELETE FROM player_skin WHERE uuid = ? AND skin IN (${data.removalSet.toPlaceholder()});") {
                     setString(1, uuidString)
-                    impl.removalSet.forEachIndexed { index, string ->
+                    data.removalSet.forEachIndexed { index, string ->
                         setString(index + 2, string)
                     }
                 }
-                if (impl.addSet.isNotEmpty()) update("INSERT INTO player_skin (uuid, skin) VALUES ${impl.addSet.toPlaceholder(2)};") {
-                    impl.addSet.forEachIndexed { index, string ->
+                if (data.addSet.isNotEmpty()) update("INSERT INTO player_skin (uuid, skin) VALUES ${data.addSet.toPlaceholder(2)};") {
+                    data.addSet.forEachIndexed { index, string ->
                         setString(index * 2 + 1, uuidString)
                         setString(index * 2 + 2, string)
                     }
                 }
-                impl.selectedSkin()?.let {
+                data.selectedSkin()?.let {
                     update("INSERT INTO player_selected_skin (uuid, skin) VALUES (?, ?) ON DUPLICATE KEY UPDATE skin = ?;") {
                         setString(1, uuidString)
                         setString(2, it.name())
@@ -109,8 +109,8 @@ class MysqlDatabase : DamagePlayerDatabase {
                 } ?: update("DELETE FROM player_selected_skin WHERE uuid = ?;") {
                     setString(1, uuidString)
                 }
-                impl.removalSet.clear()
-                impl.addSet.clear()
+                data.removalSet.clear()
+                data.addSet.clear()
             }
         }
 
