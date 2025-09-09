@@ -21,7 +21,7 @@ class NexoCompatibility : Compatibility {
                         info("Successfully merged with Nexo.")
                     }
                     is ReloadState.OnReload -> {
-                        warn("BetterModel is still on reload!")
+                        warn("BetterDamage is still on reload!")
                     }
                     is ReloadState.Failure -> {
                         result.throwable.handle("Unable to merge with Nexo.")
