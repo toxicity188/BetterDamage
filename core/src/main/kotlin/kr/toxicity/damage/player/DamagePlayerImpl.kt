@@ -2,7 +2,7 @@ package kr.toxicity.damage.player
 
 import kr.toxicity.damage.api.player.DamagePlayer
 import kr.toxicity.damage.api.player.DamagePlayerData
-import kr.toxicity.damage.manager.ConfigManagerImpl
+import kr.toxicity.damage.util.CONFIG
 import kr.toxicity.damage.util.async
 import kr.toxicity.damage.util.handle
 import kr.toxicity.damage.util.toPlayerData
@@ -19,8 +19,8 @@ class DamagePlayerImpl(
     }
 
     private val task = async(
-        ConfigManagerImpl.autoSaveTime(),
-        ConfigManagerImpl.autoSaveTime()
+        CONFIG.autoSaveTime(),
+        CONFIG.autoSaveTime()
     ) {
         save()
     }

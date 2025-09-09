@@ -1,4 +1,4 @@
-package kr.toxicity.damage.api.manager;
+package kr.toxicity.damage.api;
 
 import kr.toxicity.damage.api.effect.DamageEffect;
 import kr.toxicity.damage.api.skin.DamageSkin;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Config manager
  */
-public interface ConfigManager extends DamageManager {
+public interface BetterDamageConfig {
     /**
      * Checks debug mode is enabled.
      * @return debug
@@ -43,12 +43,6 @@ public interface ConfigManager extends DamageManager {
     @NotNull String packType();
 
     /**
-     * Checks generates should generate pack.mcmeta
-     * @return create mcmeta
-     */
-    boolean createMcmeta();
-
-    /**
      * Gets player's data auto save time (second)
      * Default: 300
      * @return auto save time
@@ -67,10 +61,16 @@ public interface ConfigManager extends DamageManager {
      */
     @Nullable DamageEffect defaultEffect();
 
-
     /**
      * Gets default damage skin
      * @return default damage skin
      */
     @Nullable DamageSkin defaultSkin();
+
+    /**
+     * Checks BetterDamage should try merging resource pack with external plugin.
+     * @return merge with external resources.
+     */
+    boolean mergeWithExternalResources();
+
 }

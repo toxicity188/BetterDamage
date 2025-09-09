@@ -3,6 +3,7 @@ package kr.toxicity.damage.api;
 import kr.toxicity.damage.api.pack.PackPath;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -16,10 +17,11 @@ public sealed interface ReloadState {
 
     /**
      * Success
-     * @param time reload time
      * @param byteMap packed resource pack [resource location: byte array file]
+     * @param directory directory
+     * @param time reload time
      */
-    record Success(long time, @NotNull Map<PackPath, byte[]> byteMap) implements ReloadState {}
+    record Success(@NotNull Map<PackPath, byte[]> byteMap, @NotNull File directory, long time) implements ReloadState {}
 
     /**
      * Failure

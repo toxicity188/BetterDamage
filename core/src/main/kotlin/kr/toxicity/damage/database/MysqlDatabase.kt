@@ -12,8 +12,7 @@ import org.bukkit.configuration.ConfigurationSection
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
-import java.util.UUID
-import kotlin.use
+import java.util.*
 
 class MysqlDatabase : DamagePlayerDatabase {
     override fun connect(section: ConfigurationSection): DamagePlayerDatabase.Connection {

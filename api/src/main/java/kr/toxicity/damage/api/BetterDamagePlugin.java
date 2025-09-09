@@ -83,10 +83,10 @@ public interface BetterDamagePlugin {
     @NotNull ReloadState reload();
 
     /**
-     * Gets config manager.
-     * @return config manager
+     * Gets config
+     * @return config
      */
-    @NotNull ConfigManager configManager();
+    @NotNull BetterDamageConfig config();
 
     /**
      * Gets command manager.

@@ -10,7 +10,7 @@ import kr.toxicity.damage.util.toYaml
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
-import java.util.UUID
+import java.util.*
 
 class YamlDatabase : DamagePlayerDatabase {
     override fun connect(section: ConfigurationSection): DamagePlayerDatabase.Connection {

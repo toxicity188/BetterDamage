@@ -3,7 +3,6 @@ package kr.toxicity.damage.util
 import kr.toxicity.damage.BetterDamagePluginImpl
 import kr.toxicity.damage.api.BetterDamage
 import kr.toxicity.damage.api.scheduler.DamageScheduler
-import kr.toxicity.damage.manager.ConfigManagerImpl
 import org.bukkit.command.CommandSender
 
 val PLUGIN
@@ -12,8 +11,11 @@ val PLUGIN
 val DATA_FOLDER
     get() = PLUGIN.dataFolder
 
+val CONFIG
+    get() = PLUGIN.config()
+
 val NAMESPACE
-    get() = ConfigManagerImpl.namespace()
+    get() = CONFIG.namespace()
 
 fun info(vararg message: String) {
     val logger = PLUGIN.logger
@@ -48,7 +50,7 @@ fun Throwable.handle(log: String, handler: (List<String>) -> Unit) {
         log,
         "Reason: ${message ?: javaClass.name}"
     )
-    if (PLUGIN.configManager().debug()) {
+    if (PLUGIN.config().debug()) {
         list += listOf(
             "Stack trace:",
             stackTraceToString()

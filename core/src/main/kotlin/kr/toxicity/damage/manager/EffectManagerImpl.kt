@@ -9,7 +9,7 @@ import kr.toxicity.damage.util.forEachAllYaml
 import kr.toxicity.damage.util.handle
 import kr.toxicity.damage.util.subFolder
 import org.jetbrains.annotations.Unmodifiable
-import java.util.Collections
+import java.util.*
 
 object EffectManagerImpl : EffectManager {
 

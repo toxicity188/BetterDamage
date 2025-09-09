@@ -5,7 +5,7 @@ import kr.toxicity.damage.manager.DatabaseManagerImpl
 import kr.toxicity.damage.manager.PlayerManagerImpl
 import kr.toxicity.damage.player.DamagePlayerDataImpl
 import org.bukkit.OfflinePlayer
-import java.util.UUID
+import java.util.*
 
 fun UUID.toPlayerData() = DatabaseManagerImpl.connection().load(this) as DamagePlayerDataImpl
 

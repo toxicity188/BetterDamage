@@ -7,7 +7,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 

@@ -4,7 +4,7 @@ import kr.toxicity.damage.api.player.DamagePlayerData
 import kr.toxicity.damage.api.skin.DamageSkin
 import kr.toxicity.damage.manager.DamageSkinManagerImpl
 import org.jetbrains.annotations.Unmodifiable
-import java.util.Collections
+import java.util.*
 
 class DamagePlayerDataImpl(
     private var selectedSkin: DamageSkin?,

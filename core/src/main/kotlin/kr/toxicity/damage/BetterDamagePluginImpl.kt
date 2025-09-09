@@ -2,6 +2,7 @@ package kr.toxicity.damage
 
 import com.vdurmont.semver4j.Semver
 import kr.toxicity.damage.api.BetterDamage
+import kr.toxicity.damage.api.BetterDamageConfig
 import kr.toxicity.damage.api.BetterDamagePlugin
 import kr.toxicity.damage.api.ReloadState
 import kr.toxicity.damage.api.adapter.ModelAdapter
@@ -13,6 +14,7 @@ import kr.toxicity.damage.api.util.HttpUtil
 import kr.toxicity.damage.api.util.MinecraftVersion
 import kr.toxicity.damage.compatibility.modelengine.CurrentModelEngineAdapter
 import kr.toxicity.damage.compatibility.modelengine.LegacyModelEngineAdapter
+import kr.toxicity.damage.config.PluginConfig
 import kr.toxicity.damage.manager.*
 import kr.toxicity.damage.scheduler.BukkitScheduler
 import kr.toxicity.damage.scheduler.FoliaScheduler
@@ -25,7 +27,9 @@ import kr.toxicity.model.api.nms.HitBox
 import kr.toxicity.model.api.tracker.EntityTrackerRegistry
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import net.kyori.adventure.text.Component
+import org.bstats.bukkit.Metrics
 import org.bukkit.Bukkit
+import org.bukkit.configuration.MemoryConfiguration
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -40,7 +44,22 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
 
     private val version = MinecraftVersion(Bukkit.getBukkitVersion().substringBefore('-'))
     private val scheduler = if (BetterDamage.IS_PAPER) FoliaScheduler() else BukkitScheduler()
+
+    var skipInitialReload = false
     private val onReload = AtomicBoolean()
+
+    private var metrics: Metrics? = null
+    private var config: BetterDamageConfig = BetterDamageConfigImpl(MemoryConfiguration())
+        set(value) {
+            if (value.metrics()) {
+                if (metrics == null) metrics = Metrics(this, BetterDamage.BSTATS_ID)
+            } else metrics?.let {
+                it.shutdown()
+                metrics = null
+            }
+            field = value
+        }
+
     @Suppress("DEPRECATION")
     private val semver = Semver(description.version, Semver.SemverType.LOOSE)
     private val audiences by lazy {
@@ -52,7 +71,6 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
 
     private val managers by lazy {
         listOf(
-            ConfigManagerImpl,
             CommandManagerImpl,
             CompatibilityManagerImpl,
             TriggerManagerImpl,
@@ -70,6 +88,16 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
     override fun onLoad() {
         BetterDamage.inst(this)
         managers.forEach(DamageManager::load)
+        if (!DATA_FOLDER.exists()) {
+            loadAssets("default") { path, stream ->
+                File(DATA_FOLDER, path).apply {
+                    parentFile.mkdirs()
+                }.outputStream().buffered().use { output ->
+                    stream.copyTo(output)
+                }
+            }
+        }
+        config = BetterDamageConfigImpl(PluginConfig.CONFIG.load())
     }
 
     override fun onEnable() {
@@ -119,11 +147,6 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
             "Minecraft version: $version, NMS version: ${nms.version()}"
         )
         managers.forEach(DamageManager::start)
-        when (val state = reload(true)) {
-            is ReloadState.Failure -> state.throwable.handle("Unable to reload.")
-            is ReloadState.OnReload -> warn("Plugin load failed.")
-            is ReloadState.Success -> info("Plugin has successfully loaded.")
-        }
         HttpUtil.userInfo().thenAccept {
             info(it.toLogMessage())
         }.exceptionally { e ->
@@ -148,6 +171,12 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
             e.handle("Unable to get latest version.")
             null
         }
+        if (skipInitialReload) return
+        when (val state = reload(true)) {
+            is ReloadState.Failure -> state.throwable.handle("Unable to reload.")
+            is ReloadState.OnReload -> warn("Plugin load failed.")
+            is ReloadState.Success -> info("Plugin has successfully loaded.")
+        }
     }
 
     override fun onDisable() {
@@ -169,28 +198,22 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
     override fun nms(): NMS = nms
 
     override fun reload(): ReloadState = reload(false)
-    private fun reload(firstReload: Boolean): ReloadState {
+    private fun reload(firstLoad: Boolean): ReloadState {
         if (!onReload.compareAndSet(false, true)) return ReloadState.ON_RELOAD
-        var shouldGeneratePack = !firstReload
         return runCatching {
             val time = System.currentTimeMillis()
+            if (!firstLoad) config = BetterDamageConfigImpl(PluginConfig.CONFIG.load())
             val assets = PackAssets()
-            if (!DATA_FOLDER.exists()) {
-                shouldGeneratePack = true
-                loadAssets("default") { path, stream ->
-                    File(DATA_FOLDER, path).apply {
-                        parentFile.mkdirs()
-                    }.outputStream().buffered().use { output ->
-                        stream.copyTo(output)
-                    }
-                }
-            }
             managers.forEach {
                 it.reload(assets)
             }
-            ReloadState.Success(System.currentTimeMillis() - time, assets.build().apply {
-                if (shouldGeneratePack) PackManagerImpl.pack(this)
-            })
+            assets.build().run {
+                ReloadState.Success(
+                    this,
+                    PackManagerImpl.pack(this),
+                    System.currentTimeMillis() - time
+                )
+            }
         }.getOrElse {
             ReloadState.Failure(it)
         }.apply {
@@ -200,7 +223,7 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
 
     override fun onReload(): Boolean = onReload.get()
 
-    override fun configManager(): ConfigManager = ConfigManagerImpl
+    override fun config(): BetterDamageConfig = config
     override fun commandManager(): CommandManager = CommandManagerImpl
     override fun imageManager(): ImageManager = ImageManagerImpl
     override fun packManager(): PackManager = PackManagerImpl

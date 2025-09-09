@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 /**
@@ -21,7 +22,7 @@ public final class PackAssets {
     public PackAssets() {
         builderMap = new HashMap<>();
         minecraft = new PackNamespace(builderMap, PackPath.ASSETS.resolve("minecraft"));
-        betterDamage = new PackNamespace(builderMap, PackPath.ASSETS.resolve(BetterDamage.inst().configManager().namespace()));
+        betterDamage = new PackNamespace(builderMap, PackPath.ASSETS.resolve(BetterDamage.inst().config().namespace()));
     }
 
     /**
@@ -56,6 +57,6 @@ public final class PackAssets {
     public @NotNull Map<PackPath, byte[]> build() {
         return builderMap.entrySet()
                 .parallelStream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get()));
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(), (f, s) -> s, TreeMap::new));
     }
 }

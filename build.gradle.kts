@@ -24,8 +24,9 @@ allprojects {
         mavenCentral()
         maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://nexus.phoenixdevt.fr/repository/maven-public/") //MMOItems, MMOCore, MythicLib
-        maven("https://mvn.lumine.io/repository/maven-public/")
         maven("https://jitpack.io")
+        maven("https://mvn.lumine.io/repository/maven-public/")
+        maven("https://repo.nexomc.com/releases/")
     }
 
     dependencies {
@@ -47,6 +48,7 @@ allprojects {
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
+        compileOnly("com.nexomc:nexo:1.11.0-dev")
     }
 
     tasks {
@@ -167,7 +169,8 @@ bukkitPluginYaml {
         "BetterModel",
         "MMOCore",
         "MMOItems",
-        "ModelEngine"
+        "ModelEngine",
+        "Nexo"
     )
     libraries = listOf(
         "net.kyori:adventure-api:$adventure",

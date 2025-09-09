@@ -4,6 +4,7 @@ import kr.toxicity.damage.api.pack.PackGenerator;
 import kr.toxicity.damage.api.pack.PackPath;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -26,6 +27,7 @@ public interface PackManager extends DamageManager {
     /**
      * Packs some byte array map to default location
      * @param byteMap byte array map
+     * @return directory
      */
-    void pack(@NotNull Map<PackPath, byte[]> byteMap);
+    @NotNull File pack(@NotNull Map<PackPath, byte[]> byteMap);
 }
