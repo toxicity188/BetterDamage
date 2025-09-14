@@ -18,7 +18,7 @@ allprojects {
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.1.6"
+    version = "1.2.0"
 
     repositories {
         mavenCentral()
