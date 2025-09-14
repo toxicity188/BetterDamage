@@ -26,6 +26,7 @@ allprojects {
         maven("https://nexus.phoenixdevt.fr/repository/maven-public/") //MMOItems, MMOCore, MythicLib
         maven("https://jitpack.io")
         maven("https://mvn.lumine.io/repository/maven-public/")
+        maven("https://repo.momirealms.net/releases/")
         maven("https://repo.nexomc.com/releases/")
     }
 
@@ -48,6 +49,8 @@ allprojects {
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
+        compileOnly("net.momirealms:craft-engine-core:0.0.63")
+        compileOnly("net.momirealms:craft-engine-bukkit:0.0.63")
         compileOnly("com.nexomc:nexo:1.11.0-dev")
     }
 
@@ -170,6 +173,7 @@ bukkitPluginYaml {
         "MMOCore",
         "MMOItems",
         "ModelEngine",
+        "CraftEngine",
         "Nexo"
     )
     libraries = listOf(
