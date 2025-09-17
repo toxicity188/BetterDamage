@@ -13,7 +13,7 @@
         "net.momirealms:craft-engine-bukkit"
       ],
       "versioning": "semver",
-      "allowedVersions": "^(\\d+\\.\\d+\\.\\d+)$"
+      "allowedVersions": "/^(?<major>\\\\d+)(?:\\\\.(?<minor>\\\\d+)(?:\\\\.(?<patch>\\\\d+))?)?$/"
     }
   ]
 }
