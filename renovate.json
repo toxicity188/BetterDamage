@@ -4,8 +4,16 @@
     "config:recommended"
   ],
   "ignoreDeps": [
-    "org.jetbrains:annotations",
-    "com.zaxxer:HikariCP",
-    "net.kyori:adventure-platform-bukkit"
+    "org.jetbrains:annotations"
+  ],
+  "packageRules": [
+    {
+      "matchDepNames": [
+        "net.momirealms:craft-engine-core",
+        "net.momirealms:craft-engine-bukkit"
+      ],
+      "versioning": "semver",
+      "allowedVersions": "^(\\d+\\.\\d+\\.\\d+)$"
+    }
   ]
 }
