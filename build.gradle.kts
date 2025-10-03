@@ -4,7 +4,7 @@ plugins {
     java
     kotlin("jvm") version "2.2.20"
     id("io.papermc.paperweight.userdev") version "2.0.0-beta.19" apply false
-    id("xyz.jpenilla.run-paper") version "3.0.0"
+    id("xyz.jpenilla.run-paper") version "3.0.1"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.3.1"
     id("com.gradleup.shadow") version "9.2.2"
 }
