@@ -59,7 +59,9 @@ object PackManagerImpl : PackManager {
                 "supported_formats" to jsonObjectOf(
                     "min_inclusive" to NMSVersion.entries.first().metaVersion,
                     "max_inclusive" to NMSVersion.entries.last().metaVersion
-                )
+                ),
+                "min_format" to NMSVersion.entries.first().metaVersion,
+                "max_format" to NMSVersion.entries.last().metaVersion
             )
         )))
         PLUGIN.getResource("icon.png")?.buffered()?.use {

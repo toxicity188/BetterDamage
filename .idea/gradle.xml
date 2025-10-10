@@ -10,20 +10,21 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/api" />
+            <option value="$PROJECT_DIR$/commandapi" />
+            <option value="$PROJECT_DIR$/commandapi/paper" />
+            <option value="$PROJECT_DIR$/commandapi/spigot" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/modelengine" />
             <option value="$PROJECT_DIR$/modelengine/current" />
             <option value="$PROJECT_DIR$/modelengine/legacy" />
             <option value="$PROJECT_DIR$/nms" />
-            <option value="$PROJECT_DIR$/nms/v1_20_R1" />
-            <option value="$PROJECT_DIR$/nms/v1_20_R2" />
-            <option value="$PROJECT_DIR$/nms/v1_20_R3" />
             <option value="$PROJECT_DIR$/nms/v1_20_R4" />
             <option value="$PROJECT_DIR$/nms/v1_21_R1" />
             <option value="$PROJECT_DIR$/nms/v1_21_R2" />
             <option value="$PROJECT_DIR$/nms/v1_21_R3" />
             <option value="$PROJECT_DIR$/nms/v1_21_R4" />
             <option value="$PROJECT_DIR$/nms/v1_21_R5" />
+            <option value="$PROJECT_DIR$/nms/v1_21_R6" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="true" />

@@ -1,5 +1,3 @@
-import java.time.LocalDateTime
-
 plugins {
     java
     kotlin("jvm") version "2.2.20"
@@ -9,16 +7,21 @@ plugins {
     id("com.gradleup.shadow") version "9.2.2"
 }
 
-val minecraft = "1.21.8"
+val minecraft = "1.21.10"
 val targetJavaVersion = 21
 val adventure = "4.25.0"
+val commandApi = "11.0.0"
+
+val commandApiCore = "dev.jorel:commandapi-paper-core:$commandApi"
+val commandApiPaper = "dev.jorel:commandapi-paper-shade:$commandApi"
+val commandApiSpigot = "dev.jorel:commandapi-spigot-shade:$commandApi"
 
 allprojects {
     apply(plugin = "java")
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.2.0"
+    version = "1.3.0"
 
     repositories {
         mavenCentral()
@@ -26,13 +29,14 @@ allprojects {
         maven("https://nexus.phoenixdevt.fr/repository/maven-public/") //MMOItems, MMOCore, MythicLib
         maven("https://jitpack.io")
         maven("https://mvn.lumine.io/repository/maven-public/")
+        maven("https://repo.alessiodp.com/releases/")
         maven("https://repo.momirealms.net/releases/")
         maven("https://repo.nexomc.com/releases/")
     }
 
     dependencies {
         testImplementation(kotlin("test"))
-        implementation("dev.jorel:commandapi-bukkit-shade:10.1.2")
+        implementation("net.byteflux:libby-bukkit:1.3.1")
         implementation(rootProject.fileTree("libs"))
         implementation("org.bstats:bstats-bukkit:3.1.0")
         implementation("com.github.toxicity188:SharedPackets:1.0.0") {
@@ -49,9 +53,9 @@ allprojects {
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
-        compileOnly("net.momirealms:craft-engine-core:0.0.63")
-        compileOnly("net.momirealms:craft-engine-bukkit:0.0.63")
-        compileOnly("com.nexomc:nexo:1.11.0-dev")
+        compileOnly("net.momirealms:craft-engine-core:0.0.64")
+        compileOnly("net.momirealms:craft-engine-bukkit:0.0.64")
+        compileOnly("com.nexomc:nexo:1.12.1-dev")
     }
 
     tasks {
@@ -89,7 +93,9 @@ fun Project.dependency(any: Any) = also { project ->
 
 fun Project.paper() = dependency("io.papermc.paper:paper-api:$minecraft-R0.1-SNAPSHOT")
 
-val api = project("api").paper()
+val api = project("api")
+    .paper()
+    .dependency(commandApiCore)
 val nms = project("nms").subprojects.map {
     it.dependency(api)
         .also { project ->
@@ -99,16 +105,25 @@ val nms = project("nms").subprojects.map {
 val modelEngine = project("modelengine").subprojects.map {
     it.dependency(api).paper()
 }
+val commandApis = listOf(
+    project("commandapi:spigot").paper().dependency(api).dependency(commandApiSpigot),
+    project("commandapi:paper").paper().dependency(api).dependency(commandApiPaper)
+)
 val core = project("core")
     .paper()
+    .dependency(commandApiCore)
     .dependency(api)
     .dependency(modelEngine)
     .dependency(nms)
+    .dependency(commandApis)
 
 dependencies {
     implementation(api)
     implementation(core)
     modelEngine.forEach {
+        implementation(it)
+    }
+    commandApis.forEach {
         implementation(it)
     }
     nms.forEach {
@@ -124,8 +139,8 @@ tasks {
         pluginJars(fileTree("plugins"))
         version(minecraft)
         downloadPlugins {
-            hangar("ViaVersion", "5.4.2")
-            hangar("ViaBackwards", "5.4.2")
+            hangar("ViaVersion", "5.5.0")
+            hangar("ViaBackwards", "5.5.0")
         }
     }
     jar {
@@ -140,8 +155,7 @@ tasks {
                 "Url" to "https://github.com/toxicity188/BetterDamage",
                 "Created-By" to "Gradle $gradle",
                 "Build-Jdk" to "${System.getProperty("java.vendor")} ${System.getProperty("java.version")}",
-                "Build-OS" to "${System.getProperty("os.arch")} ${System.getProperty("os.name")}",
-                "Build-Date" to LocalDateTime.now().toString()
+                "Build-OS" to "${System.getProperty("os.arch")} ${System.getProperty("os.name")}"
             )
         }
         archiveClassifier = ""
@@ -156,6 +170,7 @@ tasks {
         prefix("dev.jorel.commandapi")
         prefix("org.bstats")
         prefix("kr.toxicity.library")
+        prefix("net.byteflux.libby")
     }
 }
 
