@@ -55,7 +55,7 @@ allprojects {
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
         compileOnly("net.momirealms:craft-engine-core:0.0.64")
         compileOnly("net.momirealms:craft-engine-bukkit:0.0.64")
-        compileOnly("com.nexomc:nexo:1.12.1-dev")
+        compileOnly("com.nexomc:nexo:1.13.0")
     }
 
     tasks {
