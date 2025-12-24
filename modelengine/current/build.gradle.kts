@@ -1,3 +1,3 @@
 dependencies {
-    compileOnly("com.ticxo.modelengine:ModelEngine:R4.0.8")
+    compileOnly("com.ticxo.modelengine:ModelEngine:R4.0.9")
 }

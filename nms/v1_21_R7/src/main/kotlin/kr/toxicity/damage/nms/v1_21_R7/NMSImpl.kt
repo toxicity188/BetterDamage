@@ -1,4 +1,4 @@
-package kr.toxicity.damage.nms.v1_21_R6
+package kr.toxicity.damage.nms.v1_21_R7
 
 import io.papermc.paper.adventure.PaperAdventure
 import kr.toxicity.damage.api.BetterDamage
@@ -27,7 +27,7 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 class NMSImpl : NMS {
-    override fun version(): NMSVersion = NMSVersion.V1_21_R6
+    override fun version(): NMSVersion = NMSVersion.V1_21_R7
     override fun create(location: Location): DamageDisplay = DamageDisplayImpl(location)
 
     private class DamageDisplayImpl(

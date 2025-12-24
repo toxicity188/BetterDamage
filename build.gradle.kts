@@ -7,10 +7,10 @@ plugins {
     id("com.gradleup.shadow") version "9.3.0"
 }
 
-val minecraft = "1.21.10"
+val minecraft = "1.21.11"
 val targetJavaVersion = 21
 val adventure = "4.26.1"
-val commandApi = "11.0.0"
+val commandApi = "11.1.0"
 
 val commandApiCore = "dev.jorel:commandapi-paper-core:$commandApi"
 val commandApiPaper = "dev.jorel:commandapi-paper-shade:$commandApi"
@@ -53,8 +53,8 @@ allprojects {
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
-        compileOnly("net.momirealms:craft-engine-core:0.0.64")
-        compileOnly("net.momirealms:craft-engine-bukkit:0.0.64")
+        compileOnly("net.momirealms:craft-engine-core:0.0.66")
+        compileOnly("net.momirealms:craft-engine-bukkit:0.0.66")
         compileOnly("com.nexomc:nexo:1.16.1")
     }
 
@@ -139,8 +139,8 @@ tasks {
         pluginJars(fileTree("plugins"))
         version(minecraft)
         downloadPlugins {
-            hangar("ViaVersion", "5.5.0")
-            hangar("ViaBackwards", "5.5.0")
+            hangar("ViaVersion", "5.6.0")
+            hangar("ViaBackwards", "5.6.0")
         }
     }
     jar {

@@ -26,7 +26,7 @@ class SpigotCommand(plugin: JavaPlugin) : CommandAdapter {
                 Library.builder()
                     .groupId("dev{}jorel")
                     .artifactId("commandapi-spigot-shade")
-                    .version("11.0.0")
+                    .version("11.1.0")
                     .relocate(Relocation("dev{}jorel{}commandapi", "kr{}toxicity{}damage{}shaded{}dev{}jorel{}commandapi"))
                     .build()
             )
