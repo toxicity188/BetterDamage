@@ -21,7 +21,7 @@ allprojects {
     apply(plugin = "kotlin")
 
     group = "kr.toxicity.damage"
-    version = "1.3.0"
+    version = "1.3.1"
 
     repositories {
         mavenCentral()
@@ -49,7 +49,7 @@ allprojects {
         compileOnly("net.jodah:expiringmap:0.5.11")
         compileOnly("net.objecthunter:exp4j:0.4.8")
 
-        compileOnly("io.github.toxicity188:bettermodel:1.15.0")
+        compileOnly("io.github.toxicity188:bettermodel:1.15.1")
         compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
         compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
