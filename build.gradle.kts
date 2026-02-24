@@ -38,7 +38,7 @@ allprojects {
         testImplementation(kotlin("test"))
         implementation("net.byteflux:libby-bukkit:1.3.1")
         implementation(rootProject.fileTree("libs"))
-        implementation("org.bstats:bstats-bukkit:3.1.0")
+        implementation("org.bstats:bstats-bukkit:3.2.1")
         implementation("com.github.toxicity188:SharedPackets:1.0.0") {
             exclude("net.kyori")
         }
