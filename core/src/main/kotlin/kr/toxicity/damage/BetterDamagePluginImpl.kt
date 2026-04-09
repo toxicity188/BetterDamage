@@ -1,6 +1,5 @@
 package kr.toxicity.damage
 
-import com.vdurmont.semver4j.Semver
 import kr.toxicity.damage.api.BetterDamage
 import kr.toxicity.damage.api.BetterDamageConfig
 import kr.toxicity.damage.api.BetterDamagePlugin
@@ -19,7 +18,9 @@ import kr.toxicity.damage.manager.*
 import kr.toxicity.damage.scheduler.BukkitScheduler
 import kr.toxicity.damage.scheduler.FoliaScheduler
 import kr.toxicity.damage.util.DATA_FOLDER
+import kr.toxicity.damage.util.audience
 import kr.toxicity.damage.util.handle
+import kr.toxicity.damage.util.ifNull
 import kr.toxicity.damage.util.info
 import kr.toxicity.damage.util.warn
 import kr.toxicity.damage.version.ModelEngineVersion
@@ -34,6 +35,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.plugin.java.JavaPlugin
+import org.semver4j.Semver
 import java.io.File
 import java.io.InputStream
 import java.util.concurrent.atomic.AtomicBoolean
@@ -61,7 +63,7 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
         }
 
     @Suppress("DEPRECATION")
-    private val semver = Semver(description.version, Semver.SemverType.LOOSE)
+    private val semver = Semver.coerce(description.version).ifNull { "Unable to parse BetterDamage's semver." }
     private val audiences by lazy {
         BukkitAudiences.create(this)
     }
@@ -104,6 +106,7 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
         audiences()
         val manager = Bukkit.getPluginManager()
         nms = when (version) {
+            MinecraftVersion.V26_1, MinecraftVersion.V26_1_1, MinecraftVersion.V26_1_2 -> kr.toxicity.damage.nms.v26_R1.NMSImpl()
             MinecraftVersion.V1_21_11 -> kr.toxicity.damage.nms.v1_21_R7.NMSImpl()
             MinecraftVersion.V1_21_9, MinecraftVersion.V1_21_10 -> kr.toxicity.damage.nms.v1_21_R6.NMSImpl()
             MinecraftVersion.V1_21_6, MinecraftVersion.V1_21_7, MinecraftVersion.V1_21_8 -> kr.toxicity.damage.nms.v1_21_R5.NMSImpl()
@@ -155,13 +158,14 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
         HttpUtil.latest().thenAccept {
             if (semver < it) {
                 info(
-                    "Found a new version of BetterDamage: ${it.originalValue}",
+                    "Found a new version of BetterDamage: ${it.version}",
                     "Download: ${HttpUtil.VERSION}"
                 )
                 Bukkit.getPluginManager().registerEvents(object : Listener {
                     @EventHandler
                     fun PlayerJoinEvent.join() {
-                        if (player.isOp) audiences.player(player)
+                        if (player.isOp) player
+                            .audience()
                             .sendMessage(Component.text("Found a new version of BetterDamage: ").append(HttpUtil.versionComponent(it)))
                     }
                 }, this)

@@ -1,15 +1,19 @@
 package kr.toxicity.damage.nms.v1_20_R4
 
-import kr.toxicity.library.sharedpackets.PluginBundlePacket
 import net.kyori.adventure.key.Key
+import net.kyori.adventure.key.Keyed
 import net.minecraft.network.protocol.Packet
 import net.minecraft.network.protocol.game.ClientGamePacketListener
 import net.minecraft.network.protocol.game.ClientboundBundlePacket
 
-private val KEY = Key.key("betterdamage")
+internal fun Packet<ClientGamePacketListener>.toBundlePacket() = listOf(this).toBundlePacket()
+internal fun Iterable<Packet<ClientGamePacketListener>>.toBundlePacket() = ClientboundBundlePacket(PluginBundlePacket(this))
 
-fun Packet<ClientGamePacketListener>.toBundlePacket() = listOf(this).toBundlePacket()
-fun Iterable<Packet<ClientGamePacketListener>>.toBundlePacket() = ClientboundBundlePacket(PluginBundlePacket.of(
-    KEY,
-    this
-))
+internal data class PluginBundlePacket(
+    val iterable: Iterable<Packet<ClientGamePacketListener>>
+) : Keyed, Iterable<Packet<ClientGamePacketListener>> by iterable {
+    private companion object {
+        val key = Key.key("betterdamage")
+    }
+    override fun key(): Key = key
+}

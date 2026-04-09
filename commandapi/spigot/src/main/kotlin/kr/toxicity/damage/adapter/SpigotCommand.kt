@@ -31,7 +31,7 @@ class SpigotCommand(plugin: JavaPlugin) : CommandAdapter {
                     .build()
             )
         }
-        CommandAPI.onLoad(CommandAPISpigotConfig(plugin).silentLogs(true))
+        CommandAPI.onLoad(CommandAPISpigotConfig(plugin).fallbackToLatestNMS(true).silentLogs(true))
     }
 
     private val playerArgs = PlayerProfileArgument("player")

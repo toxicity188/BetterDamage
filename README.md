@@ -28,7 +28,7 @@ This plugin implements damage skin.
 - Spigot, Paper and Folia or fork of them.
 
 ### Version
-- 1.20.5-1.21.11
+- 1.20.5-26.1.2
 
 ### Build
 ./gradlew build

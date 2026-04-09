@@ -1,146 +1,50 @@
 plugins {
-    java
-    kotlin("jvm") version "2.3.20"
-    id("io.papermc.paperweight.userdev") version "2.0.0-beta.21" apply false
+    alias(libs.plugins.conventions.standard)
     id("xyz.jpenilla.run-paper") version "3.0.2"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.3.1"
     id("com.gradleup.shadow") version "9.4.1"
 }
 
-val minecraft = "1.21.11"
-val targetJavaVersion = 21
-val adventure = "4.26.1"
-val commandApi = "11.2.0"
-
-val commandApiCore = "dev.jorel:commandapi-paper-core:$commandApi"
-val commandApiPaper = "dev.jorel:commandapi-paper-shade:$commandApi"
-val commandApiSpigot = "dev.jorel:commandapi-spigot-shade:$commandApi"
-
-allprojects {
-    apply(plugin = "java")
-    apply(plugin = "kotlin")
-
-    group = "kr.toxicity.damage"
-    version = "1.3.1"
-
-    repositories {
-        mavenCentral()
-        maven("https://repo.papermc.io/repository/maven-public/")
-        maven("https://nexus.phoenixdevt.fr/repository/maven-public/") //MMOItems, MMOCore, MythicLib
-        maven("https://jitpack.io")
-        maven("https://mvn.lumine.io/repository/maven-public/")
-        maven("https://repo.alessiodp.com/releases/")
-        maven("https://repo.momirealms.net/releases/")
-        maven("https://repo.nexomc.com/releases/")
-    }
-
-    dependencies {
-        testImplementation(kotlin("test"))
-        implementation("net.byteflux:libby-bukkit:1.3.1")
-        implementation(rootProject.fileTree("libs"))
-        implementation("org.bstats:bstats-bukkit:3.2.1")
-        implementation("com.github.toxicity188:SharedPackets:1.0.0") {
-            exclude("net.kyori")
-        }
-
-        compileOnly("com.zaxxer:HikariCP:7.0.2")
-        compileOnly("com.vdurmont:semver4j:3.1.0")
-        compileOnly("net.kyori:adventure-platform-bukkit:4.4.1")
-        compileOnly("net.jodah:expiringmap:0.5.11")
-        compileOnly("net.objecthunter:exp4j:0.4.8")
-
-        compileOnly("io.github.toxicity188:bettermodel:1.15.2")
-        compileOnly("io.lumine:MythicLib-dist:1.7.1-SNAPSHOT")
-        compileOnly("net.Indyuce:MMOCore-API:1.13.1-SNAPSHOT")
-        compileOnly("net.Indyuce:MMOItems-API:6.10.1-SNAPSHOT")
-        compileOnly("net.momirealms:craft-engine-core:0.0.66")
-        compileOnly("net.momirealms:craft-engine-bukkit:0.0.66")
-        compileOnly("com.nexomc:nexo:1.21.0")
-    }
-
-    tasks {
-        test {
-            useJUnitPlatform()
-        }
-        compileJava {
-            options.encoding = Charsets.UTF_8.name()
-        }
-    }
-    java {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
-    kotlin {
-        jvmToolchain(targetJavaVersion)
-    }
-}
-
-fun Project.dependency(any: Any) = also { project ->
-    if (any is Collection<*>) {
-        any.forEach {
-            if (it == null) return@forEach
-            project.dependencies {
-                compileOnly(it)
-                testImplementation(it)
-            }
-        }
-    } else {
-        project.dependencies {
-            compileOnly(any)
-            testImplementation(any)
-        }
-    }
-}
-
-fun Project.paper() = dependency("io.papermc.paper:paper-api:$minecraft-R0.1-SNAPSHOT")
-
-val api = project("api")
-    .paper()
-    .dependency(commandApiCore)
-val nms = project("nms").subprojects.map {
-    it.dependency(api)
-        .also { project ->
-            project.apply(plugin = "io.papermc.paperweight.userdev")
-        }
-}
-val modelEngine = project("modelengine").subprojects.map {
-    it.dependency(api).paper()
-}
-val commandApis = listOf(
-    project("commandapi:spigot").paper().dependency(api).dependency(commandApiSpigot),
-    project("commandapi:paper").paper().dependency(api).dependency(commandApiPaper)
-)
-val core = project("core")
-    .paper()
-    .dependency(commandApiCore)
-    .dependency(api)
-    .dependency(modelEngine)
-    .dependency(nms)
-    .dependency(commandApis)
-
-dependencies {
-    implementation(api)
-    implementation(core)
-    modelEngine.forEach {
-        implementation(it)
-    }
-    commandApis.forEach {
-        implementation(it)
-    }
-    nms.forEach {
-        implementation(project("nms:${it.name}", configuration = "reobf"))
-    }
-}
+val minecraft = property("minecraft_version").toString()
+val adventure = libs.versions.adventure.get()
 
 val pluginVersion = version.toString()
 val groupString = group.toString()
 
+val dependenciesContent = libs.bundles.library.standard.map {
+    it.map(Any::toString)
+}.get()
+
+dependencies {
+    implementation(libs.bundles.library.shaded) {
+        exclude(group = "org.jetbrains", module = "annotations")
+        exclude(group = "io.leangen.geantyref", module = "geantyref")
+    }
+
+    implementation(project(":api")) { isTransitive = false }
+    implementation(project(":core")) { isTransitive = false }
+
+    implementation(project(":nms:v1_20_R4", configuration = "reobf")) { isTransitive = false }
+    implementation(project(":nms:v1_21_R1", configuration = "reobf")) { isTransitive = false }
+    implementation(project(":nms:v1_21_R2", configuration = "reobf")) { isTransitive = false }
+    implementation(project(":nms:v1_21_R3", configuration = "reobf")) { isTransitive = false }
+    implementation(project(":nms:v1_21_R4", configuration = "reobf")) { isTransitive = false }
+    implementation(project(":nms:v1_21_R5", configuration = "reobf")) { isTransitive = false }
+    implementation(project(":nms:v1_21_R6", configuration = "reobf")) { isTransitive = false }
+    implementation(project(":nms:v1_21_R7", configuration = "reobf")) { isTransitive = false }
+    implementation(project(":nms:v26_R1")) { isTransitive = false }
+
+    implementation(project(":modelengine:legacy")) { isTransitive = false }
+    implementation(project(":modelengine:current")) { isTransitive = false }
+}
+
 tasks {
     runServer {
         pluginJars(fileTree("plugins"))
-        version(minecraft)
+        minecraftVersion(minecraft)
         downloadPlugins {
-            hangar("ViaVersion", "5.6.0")
-            hangar("ViaBackwards", "5.6.0")
+            hangar("ViaVersion", "5.8.1")
+            hangar("ViaBackwards", "5.8.1")
         }
     }
     jar {
@@ -160,17 +64,14 @@ tasks {
         }
         archiveClassifier = ""
         dependencies {
-            exclude(dependency("org.jetbrains:annotations:26.0.2"))
+            exclude(dependency("org.jetbrains:annotations:13.0"))
         }
         fun prefix(pattern: String) {
             relocate(pattern, "$groupString.shaded.$pattern")
         }
-        exclude("LICENSE")
         prefix("kotlin")
-        prefix("dev.jorel.commandapi")
+        prefix("org.incendo.cloud")
         prefix("org.bstats")
-        prefix("kr.toxicity.library")
-        prefix("net.byteflux.libby")
     }
 }
 
@@ -180,7 +81,7 @@ bukkitPluginYaml {
     website = "https://github.com/toxicity188/BetterDamage"
     name = rootProject.name
     foliaSupported = true
-    apiVersion = "1.20"
+    apiVersion = "1.20.6"
     author = "toxicity"
     description = "Provides simple damage skin for Minecraft Bukkit."
     softDepend = listOf(
@@ -193,11 +94,6 @@ bukkitPluginYaml {
     )
     libraries = listOf(
         "net.kyori:adventure-api:$adventure",
-        "net.kyori:adventure-text-serializer-gson:$adventure",
-        "net.kyori:adventure-platform-bukkit:4.4.1",
-        "com.zaxxer:HikariCP:7.0.2",
-        "com.vdurmont:semver4j:3.1.0",
-        "net.jodah:expiringmap:0.5.11",
-        "net.objecthunter:exp4j:0.4.8"
-    )
+        "net.kyori:adventure-text-serializer-gson:$adventure"
+    ) + dependenciesContent
 }

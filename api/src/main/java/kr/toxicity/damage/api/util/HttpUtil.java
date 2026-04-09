@@ -1,13 +1,13 @@
 package kr.toxicity.damage.api.util;
 
 import com.google.gson.JsonParser;
-import com.vdurmont.semver4j.Semver;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.semver4j.Semver;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -53,7 +53,7 @@ public final class HttpUtil {
         return CLIENT.sendAsync(HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create("https://api.spigotmc.org/legacy/update.php?resource=123850/"))
-                .build(), HttpResponse.BodyHandlers.ofString()).thenApply(response -> new Semver(response.body(), Semver.SemverType.LOOSE));
+                .build(), HttpResponse.BodyHandlers.ofString()).thenApply(response -> Semver.coerce(response.body()));
     }
 
     /**
@@ -88,7 +88,7 @@ public final class HttpUtil {
      */
     public static @NotNull Component versionComponent(@NotNull Semver semver) {
         return Component.text()
-                .content(semver.getOriginalValue())
+                .content(semver.getVersion())
                 .color(NamedTextColor.AQUA)
                 .hoverEvent(HoverEvent.showText(
                         Component.text()

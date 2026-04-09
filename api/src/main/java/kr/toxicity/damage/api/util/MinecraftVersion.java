@@ -1,8 +1,10 @@
 package kr.toxicity.damage.api.util;
 
 import org.jetbrains.annotations.NotNull;
+import org.semver4j.Semver;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Minecraft version.
@@ -23,6 +25,18 @@ public record MinecraftVersion(int first, int second, int third) implements Comp
         return COMPARATOR.compare(this, o);
     }
 
+    /**
+     * 26.1.2
+     */
+    public static final MinecraftVersion V26_1_2 = new MinecraftVersion(26, 1, 2);
+    /**
+     * 26.1.1
+     */
+    public static final MinecraftVersion V26_1_1 = new MinecraftVersion(26, 1, 1);
+    /**
+     * 26.1
+     */
+    public static final MinecraftVersion V26_1 = new MinecraftVersion(26, 1, 0);
     /**
      * 1.21.11
      */
@@ -99,21 +113,11 @@ public record MinecraftVersion(int first, int second, int third) implements Comp
 
     /**
      * Parses version from string
-     * @param version version like "1.21.11"
+     * @param version version like "26.1.2"
      */
     public MinecraftVersion(@NotNull String version) {
-        this(version.split("\\."));
-    }
-    /**
-     * Parses version from a string array
-     * @param version version array like ["1", "21", "11"]
-     */
-    public MinecraftVersion(@NotNull String[] version) {
-        this(
-                version.length > 0 ? Integer.parseInt(version[0]) : 0,
-                version.length > 1 ? Integer.parseInt(version[1]) : 0,
-                version.length > 2 ? Integer.parseInt(version[2]) : 0
-        );
+        var semver = Objects.requireNonNull(Semver.coerce(version));
+        this(semver.getMajor(), semver.getMinor(), semver.getPatch());
     }
 
     @Override

@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.conventions.paper)
     `maven-publish`
 }
 
