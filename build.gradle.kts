@@ -10,7 +10,7 @@ plugins {
 val minecraft = "1.21.11"
 val targetJavaVersion = 21
 val adventure = "4.26.1"
-val commandApi = "11.1.0"
+val commandApi = "11.2.0"
 
 val commandApiCore = "dev.jorel:commandapi-paper-core:$commandApi"
 val commandApiPaper = "dev.jorel:commandapi-paper-shade:$commandApi"
