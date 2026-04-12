@@ -70,7 +70,6 @@ tasks {
             relocate(pattern, "$groupString.shaded.$pattern")
         }
         prefix("kotlin")
-        prefix("org.incendo.cloud")
         prefix("org.bstats")
     }
 }
