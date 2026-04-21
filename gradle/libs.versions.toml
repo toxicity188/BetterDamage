@@ -13,7 +13,7 @@ exp4j = "net.objecthunter:exp4j:0.4.8"
 
 bstats = "org.bstats:bstats-bukkit:3.2.1"
 
-cloud-paper = "org.incendo:cloud-paper:2.0.0-beta.15"
+cloud-paper = "org.incendo:cloud-paper:2.0.0-SNAPSHOT"
 
 build-kotlin-jvm = { module = "org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin", version.ref = "kotlin" }
 build-paperweight = { module = "io.papermc.paperweight.userdev:io.papermc.paperweight.userdev.gradle.plugin", version.ref = "paperweight" }
