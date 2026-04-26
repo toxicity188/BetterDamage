@@ -4,11 +4,11 @@ plugins {
 }
 
 dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.44")
-    annotationProcessor("org.projectlombok:lombok:1.18.44")
+    compileOnly("org.projectlombok:lombok:1.18.46")
+    annotationProcessor("org.projectlombok:lombok:1.18.46")
 
-    testCompileOnly("org.projectlombok:lombok:1.18.44")
-    testAnnotationProcessor("org.projectlombok:lombok:1.18.44")
+    testCompileOnly("org.projectlombok:lombok:1.18.46")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.46")
 }
 
 java {
