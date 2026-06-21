@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * Pack builder
  */
-@RequiredArgsConstructor(access = AccessLevel.MODULE)
+@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public final class PackBuilder {
     private final Map<PackPath, PackSupplier> builderMap;
     private final PackPath path;

@@ -1,19 +1,19 @@
 [versions]
 kotlin = "2.4.0"
-adventure = "4.26.1"
+adventure = "5.1.1"
 
 paperweight = "2.0.0-beta.21"
 
 [libraries]
 hikaricp = "com.zaxxer:HikariCP:7.0.2"
 semver4j = "org.semver4j:semver4j:6.0.0"
-adventure-platform-bukkit = "net.kyori:adventure-platform-bukkit:4.4.1"
+adventure-platform-bukkit = "io.github.toxicity188:adventure-platform-bukkit:5.1.2"
 expiringmap = "net.jodah:expiringmap:0.5.11"
 exp4j = "net.objecthunter:exp4j:0.4.8"
 
 bstats = "org.bstats:bstats-bukkit:3.2.1"
 
-cloud-paper = "org.incendo:cloud-paper:2.0.0-beta.15"
+cloud-paper = "org.incendo:cloud-paper:2.0.0-beta.16"
 
 build-kotlin-jvm = { module = "org.jetbrains.kotlin.jvm:org.jetbrains.kotlin.jvm.gradle.plugin", version.ref = "kotlin" }
 build-paperweight = { module = "io.papermc.paperweight.userdev:io.papermc.paperweight.userdev.gradle.plugin", version.ref = "paperweight" }

@@ -42,6 +42,7 @@ include(
     "nms:v1_21_R6",
     "nms:v1_21_R7",
     "nms:v26_R1",
+    "nms:v26_R2",
 
     "modelengine:legacy",
     "modelengine:current",

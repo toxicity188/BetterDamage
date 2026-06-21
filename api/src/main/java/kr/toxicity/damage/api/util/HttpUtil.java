@@ -87,17 +87,18 @@ public final class HttpUtil {
      * @return component
      */
     public static @NotNull Component versionComponent(@NotNull Semver semver) {
-        return Component.text()
+        return Component.text(builder -> builder
                 .content(semver.getVersion())
                 .color(NamedTextColor.AQUA)
                 .hoverEvent(HoverEvent.showText(
-                        Component.text()
+                        Component.text(hover -> hover
                                 .append(Component.text(VERSION).color(NamedTextColor.DARK_AQUA))
                                 .appendNewline()
                                 .append(Component.text("Click to open download link."))
+                        )
                 ))
                 .clickEvent(ClickEvent.openUrl(VERSION))
-                .build();
+        );
     }
 
     /**

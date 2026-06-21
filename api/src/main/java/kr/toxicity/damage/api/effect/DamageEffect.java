@@ -159,12 +159,10 @@ public interface DamageEffect {
         var display = BetterDamage.inst().nms().create(initialLocation);
         display.frame(interval() + 1);
         display.billboard(billboard());
-        var builder = Component.text()
-                .content(toString(data.damage()))
-                .color(color())
-                .font(image().key());
-        if (BetterDamage.inst().version().supportShadowColor()) builder.shadowColor(ShadowColor.shadowColor(shadowColor()));
-        display.text(builder.build().compact());
+        display.text(Component.text(tb -> {
+            tb.content(toString(data.damage())).color(color()).font(image().key());
+            if (BetterDamage.inst().version().supportShadowColor()) tb.shadowColor(ShadowColor.shadowColor(shadowColor()));
+        }).compact());
         var stream = Stream.of(data.player());
         if (showGlobalPlayer()) stream = Stream.concat(stream, data.entity().getTrackedBy().stream());
         stream.forEach(display::spawn);

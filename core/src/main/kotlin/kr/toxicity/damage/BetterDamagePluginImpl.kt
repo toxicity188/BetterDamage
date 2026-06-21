@@ -106,6 +106,7 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
         audiences()
         val manager = Bukkit.getPluginManager()
         nms = when (version) {
+            MinecraftVersion.V26_2 -> kr.toxicity.damage.nms.v26_R2.NMSImpl()
             MinecraftVersion.V26_1, MinecraftVersion.V26_1_1, MinecraftVersion.V26_1_2 -> kr.toxicity.damage.nms.v26_R1.NMSImpl()
             MinecraftVersion.V1_21_11 -> kr.toxicity.damage.nms.v1_21_R7.NMSImpl()
             MinecraftVersion.V1_21_9, MinecraftVersion.V1_21_10 -> kr.toxicity.damage.nms.v1_21_R6.NMSImpl()

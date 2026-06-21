@@ -26,6 +26,10 @@ public record MinecraftVersion(int first, int second, int third) implements Comp
     }
 
     /**
+     * 26.2
+     */
+    public static final MinecraftVersion V26_2 = new MinecraftVersion(26, 2, 0);
+    /**
      * 26.1.2
      */
     public static final MinecraftVersion V26_1_2 = new MinecraftVersion(26, 1, 2);
