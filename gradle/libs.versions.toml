@@ -5,7 +5,7 @@ adventure = "5.1.1"
 paperweight = "2.0.0-beta.21"
 
 [libraries]
-hikaricp = "com.zaxxer:HikariCP:7.0.2"
+hikaricp = "com.zaxxer:HikariCP:7.1.0"
 semver4j = "org.semver4j:semver4j:6.0.0"
 adventure-platform-bukkit = "io.github.toxicity188:adventure-platform-bukkit:5.1.2"
 expiringmap = "net.jodah:expiringmap:0.5.11"
