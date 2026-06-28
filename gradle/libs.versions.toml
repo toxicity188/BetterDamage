@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.4.0"
-adventure = "5.1.1"
+adventure = "5.2.0"
 
 paperweight = "2.0.0-beta.21"
 
