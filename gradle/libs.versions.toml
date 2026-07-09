@@ -2,7 +2,7 @@
 kotlin = "2.4.0"
 adventure = "5.2.0"
 
-paperweight = "2.0.0-beta.21"
+paperweight = "2.0.0-SNAPSHOT"
 
 [libraries]
 hikaricp = "com.zaxxer:HikariCP:7.1.0"
