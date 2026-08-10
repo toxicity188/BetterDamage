@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.conventions.standard)
-    id("xyz.jpenilla.run-paper") version "3.0.2"
+    id("xyz.jpenilla.run-paper") version "3.1.0"
     id("xyz.jpenilla.resource-factory-bukkit-convention") version "1.3.1"
     id("com.gradleup.shadow") version "9.6.1"
 }
