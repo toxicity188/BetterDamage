@@ -44,8 +44,8 @@ tasks {
         pluginJars(fileTree("plugins"))
         minecraftVersion(minecraft)
         downloadPlugins {
-            hangar("ViaVersion", "5.10.0")
-            hangar("ViaBackwards", "5.10.0")
+            hangar("ViaVersion", "5.11.0")
+            hangar("ViaBackwards", "5.11.0")
         }
     }
     jar {
