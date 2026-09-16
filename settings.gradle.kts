@@ -6,6 +6,12 @@ pluginManagement {
     }
 }
 
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.kotlinx:kotlinx-serialization-core:1.11.0")
+    }
+}
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
@@ -43,6 +49,7 @@ include(
     "nms:v1_21_R7",
     "nms:v26_R1",
     "nms:v26_R2",
+    "nms:v26_R3",
 
     "modelengine:legacy",
     "modelengine:current",

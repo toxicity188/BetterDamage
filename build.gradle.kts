@@ -34,6 +34,7 @@ dependencies {
     implementation(project(":nms:v1_21_R7", configuration = "reobf")) { isTransitive = false }
     implementation(project(":nms:v26_R1")) { isTransitive = false }
     implementation(project(":nms:v26_R2")) { isTransitive = false }
+    implementation(project(":nms:v26_R3")) { isTransitive = false }
 
     implementation(project(":modelengine:legacy")) { isTransitive = false }
     implementation(project(":modelengine:current")) { isTransitive = false }
