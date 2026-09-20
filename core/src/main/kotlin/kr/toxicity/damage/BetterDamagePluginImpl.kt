@@ -42,6 +42,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.BiConsumer
 import java.util.jar.JarFile
 
+private typealias LatestNMS = kr.toxicity.damage.nms.v26_R3.NMSImpl
+
 class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
 
     private val version = MinecraftVersion(Bukkit.getBukkitVersion().substringBefore('-'))
@@ -106,7 +108,7 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
         audiences()
         val manager = Bukkit.getPluginManager()
         nms = when (version) {
-            MinecraftVersion.V26_3 -> kr.toxicity.damage.nms.v26_R3.NMSImpl()
+            MinecraftVersion.V26_3 -> LatestNMS()
             MinecraftVersion.V26_2 -> kr.toxicity.damage.nms.v26_R2.NMSImpl()
             MinecraftVersion.V26_1, MinecraftVersion.V26_1_1, MinecraftVersion.V26_1_2 -> kr.toxicity.damage.nms.v26_R1.NMSImpl()
             MinecraftVersion.V1_21_11 -> kr.toxicity.damage.nms.v1_21_R7.NMSImpl()
@@ -119,11 +121,10 @@ class BetterDamagePluginImpl : JavaPlugin(), BetterDamagePlugin {
             MinecraftVersion.V1_20_5, MinecraftVersion.V1_20_6 -> kr.toxicity.damage.nms.v1_20_R4.NMSImpl()
             else -> {
                 warn(
-                    "Unsupported version: $version",
-                    "Plugin will be automatically disabled."
+                    "Note: this version is officially untested.",
+                    "So be careful to use!"
                 )
-                manager.disablePlugin(this)
-                return
+                LatestNMS()
             }
         }
         manager.getPlugin("ModelEngine")?.let {
